@@ -35,6 +35,9 @@
     <ClInclude Include="Admin.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
+    <ClInclude Include="VentanaReporte.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="View.cpp">
@@ -53,6 +56,9 @@
       <Filter>Archivos de origen</Filter>
     </ClCompile>
     <ClCompile Include="Admin.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="VentanaReporte.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
   </ItemGroup>

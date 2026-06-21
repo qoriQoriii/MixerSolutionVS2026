@@ -1,5 +1,5 @@
 #pragma once
-
+#include "VentanaReporte.h"
 namespace View {
 
 	using namespace System;
@@ -60,6 +60,7 @@ namespace View {
 
 
 	private: System::Windows::Forms::Button^ button3;
+	private: System::Windows::Forms::Button^ btnReporte;
 	private: System::Windows::Forms::Button^ btnInventario;
 	protected:
 
@@ -92,6 +93,7 @@ namespace View {
 			this->btnPedidos = (gcnew System::Windows::Forms::Button());
 			this->button3 = (gcnew System::Windows::Forms::Button());
 			this->btnInventario = (gcnew System::Windows::Forms::Button());
+			this->btnReporte = (gcnew System::Windows::Forms::Button());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBoxMixer1))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBoxMixer2))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBoxMixer3))->BeginInit();
@@ -269,7 +271,7 @@ namespace View {
 			this->btnPedidos->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10.2F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->btnPedidos->ForeColor = System::Drawing::Color::White;
-			this->btnPedidos->Location = System::Drawing::Point(290, 522);
+			this->btnPedidos->Location = System::Drawing::Point(228, 522);
 			this->btnPedidos->Name = L"btnPedidos";
 			this->btnPedidos->Size = System::Drawing::Size(119, 33);
 			this->btnPedidos->TabIndex = 14;
@@ -283,7 +285,7 @@ namespace View {
 			this->button3->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 7.8F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->button3->ForeColor = System::Drawing::Color::White;
-			this->button3->Location = System::Drawing::Point(474, 523);
+			this->button3->Location = System::Drawing::Point(534, 519);
 			this->button3->Name = L"button3";
 			this->button3->Size = System::Drawing::Size(173, 33);
 			this->button3->TabIndex = 15;
@@ -298,12 +300,24 @@ namespace View {
 			this->btnInventario->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10.2F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->btnInventario->ForeColor = System::Drawing::Color::White;
-			this->btnInventario->Location = System::Drawing::Point(80, 523);
+			this->btnInventario->Location = System::Drawing::Point(49, 522);
 			this->btnInventario->Name = L"btnInventario";
 			this->btnInventario->Size = System::Drawing::Size(138, 33);
 			this->btnInventario->TabIndex = 16;
 			this->btnInventario->Text = L"Inventario";
 			this->btnInventario->UseVisualStyleBackColor = false;
+			// 
+			// btnReporte
+			// 
+			this->btnReporte->BackColor = System::Drawing::SystemColors::ActiveCaptionText;
+			this->btnReporte->ForeColor = System::Drawing::SystemColors::ButtonHighlight;
+			this->btnReporte->Location = System::Drawing::Point(374, 515);
+			this->btnReporte->Name = L"btnReporte";
+			this->btnReporte->Size = System::Drawing::Size(120, 40);
+			this->btnReporte->TabIndex = 0;
+			this->btnReporte->Text = L"Reporte";
+			this->btnReporte->UseVisualStyleBackColor = false;
+			this->btnReporte->Click += gcnew System::EventHandler(this, &Admin::btnReporte_Click);
 			// 
 			// Admin
 			// 
@@ -311,6 +325,7 @@ namespace View {
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->BackColor = System::Drawing::SystemColors::ActiveCaption;
 			this->ClientSize = System::Drawing::Size(753, 587);
+			this->Controls->Add(this->btnReporte);
 			this->Controls->Add(this->btnInventario);
 			this->Controls->Add(this->button3);
 			this->Controls->Add(this->btnPedidos);
@@ -340,6 +355,11 @@ namespace View {
 
 		}
 #pragma endregion
+	private: System::Void btnReporte_Click(System::Object^ sender, System::EventArgs^ e) {
+		// Instanciar y abrir la ventana como un diálogo modal centrado
+		mixer::VentanaReporte^ ventana = gcnew mixer::VentanaReporte();
+		ventana->ShowDialog();
+	}
 	private: System::Void label1_Click(System::Object^ sender, System::EventArgs^ e) {
 	}
 	private: System::Void Admin_Load(System::Object^ sender, System::EventArgs^ e) {
