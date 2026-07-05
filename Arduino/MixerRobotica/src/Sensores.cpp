@@ -14,15 +14,21 @@ void inicializarSensores() {
 }
 
 int leerDistancia(int numero) {
-    unsigned int d = 0;
+    int d = 0;
     switch (numero) {
         case 1: d = sonar1.ping_cm(); break;
         case 2: d = sonar2.ping_cm(); break;
         case 3: d = sonar3.ping_cm(); break;
         case 4: d = sonar4.ping_cm(); break;
         default: return -1;
+
+
     }
-    return (d == 0) ? -1 : (int)d;
+    return (d == 0) ? -1 : d;
+
+
+
+    
 }
 
 void leerTodasDistancias(int destino[]) {
@@ -30,3 +36,35 @@ void leerTodasDistancias(int destino[]) {
         destino[i] = leerDistancia(i + 1);
     }
 }
+
+int [] GenerarReporteTanques() {
+
+    int lecturas[numeroTanques] = {}; 
+    leerTodasDistancias(lecturas);
+
+    for (int i = 0; i < numeroTanques ;i++){
+
+
+        if(lecturas[i] != -1 && lecturas[i] >= LecturaMinimaTanqueDistancia && lecturas[i] <= LecturaMaxTanqueDistancia){
+
+            float range = 1 - ((lecturas[i] - LecturaMinimaTanqueDistancia)/(LecturaMaxTanqueDistancia- LecturaMinimaTanqueDistancia));
+
+
+            if(0.8 <= range < 1) reporteTanque[i] = "Tanque" + String(i + 1) + " 80-100 %";
+            else if(0.5 <= range < 0.8 ) reporteTanque[i] = "Tanque" + String(i + 1) + " 50-80 %";
+            else if(0.2 <= range < 0.5 ) reporteTanque[i] = "Tanque" + String(i + 1) + " 20-50 %";
+            else if(0.0 <= range < 0.2 ) reporteTanque[i] = "Tanque" + String(i + 1) + " 0-20 %";
+
+
+
+        }else reporteTanque[i] = "ERROR LECTURA/RANGO"; //No se realizo la lectura correctamente
+
+
+    }
+
+    return reporteTanque; //Retorna el arreglo de Strings con el reporte de cada tanque
+    
+
+
+}
+

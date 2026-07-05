@@ -3,10 +3,10 @@
 
 #include <Arduino.h>
 // Pines — Servomotores
-const int PIN_SERVO_1 = 8;
-const int PIN_SERVO_2 = 9;
-const int PIN_SERVO_3 = 10;
-const int PIN_SERVO_4 = 11;
+const int PIN_BOMBA_1 = 8;
+const int PIN_BOMBA_2 = 9;
+const int PIN_BOMBA_3 = 10;
+const int PIN_BOMBA_4 = 11;
 
 // Pines — HC-SR04 (Ultrasonido)
 const int TRIG_1 = A0; const int ECHO_1 = A1;   
@@ -21,11 +21,33 @@ const int MOTOR_IN1 = 12;
 const int MOTOR_IN2 =  7;
 
 // Configuración de la Receta Dinámica
-const int numeroIngredientes = 4;      // Cantidad de tanques/servos
+const int numeroTanques = 4;      // Cantidad de tanques/servos
 const int delayServido = 3000;         // Tiempo que se quedan abiertos (3 segundos)
 
 // Umbral del tanque. 
 // NOTA: Si usas ultrasonido desde arriba, una distancia pequeña significa tanque LLENO.
 // Si tu lógica requiere que la lectura sea MAYOR a este tope para pasar, ajusta este valor:
-const int ReservaMinimaTanque = 10;    // Umbral de validación en cm
+const int LecturaMinimaTanqueDistancia = 2;    // Umbral de validación en cm
+const int LecturaMaxTanqueDistancia = 11; 
+
+
+
+// Comandos seriales reconocidos
+enum ComandoSerial {
+    CMD_PEDIDO,
+    CMD_REPORTE_TANQUE,
+    CMD_DESCONOCIDO
+};
+
+inline ComandoSerial parsearComando(const String& comando) {
+    if (comando.startsWith("PEDIDO:"))  return CMD_PEDIDO;
+    if (comando == "REPORTE_TANQUE")          return CMD_REPORTE_TANQUE;
+    return CMD_DESCONOCIDO;
+}
+
+
+//Reporte de tanque:
+
+String reporteTanque[numeroTanques] = {};
+
 #endif

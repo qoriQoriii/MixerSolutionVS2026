@@ -1,51 +1,70 @@
 #include <Arduino.h>
 #include "Recetas.h"
 #include "Config.h"
+#include "Sensores.h"
+
+
 void setup() {
     Serial.begin(9600);
     inicializarTodoElHardware();
     Serial.println("SISTEMA_LISTO"); 
 }
 
-
 void loop() {
+
+    //Leemos constantemente es espera de un comando dede la pc
     if (Serial.available() > 0) {
+
         String comando = Serial.readStringUntil('\n');
         comando.trim();
+        String mensaje = "";
 
-        if (comando.startsWith("PEDIDO:")) {
-            // Quitamos el prefijo "PEDIDO:" para quedarnos solo con "0,1,1,0"
-            String datos = comando.substring(7); 
+        switch (parsearComando(comando)) {
+            
+            //La pc envio "PEDIDO:1,0,1,0" POR EJEMPLO  
+            case CMD_PEDIDO: {
+                String datos = comando.substring(7);
 
-            // Arreglo temporal para guardar los 4 valores
-            int recetaRecibida[numeroIngredientes] = {0, 0, 0, 0};
-            int indiceValores = 0;
+                int recetaRecibida[numeroTanques] = {};
+                int indiceValores = 0;
 
-            // Procesar el string separado por comas (Parsing masivo)
-            while (datos.length() > 0 && indiceValores < numeroIngredientes) {
-                int posComa = datos.indexOf(',');
-                
-                if (posComa == -1) {
-                    // Ya no hay más comas, es el último número
-                    recetaRecibida[indiceValores] = datos.toInt();
-                    datos = ""; // Termina el bucle
-                } else {
-                    // Extrae el número antes de la coma
-                    recetaRecibida[indiceValores] = datos.substring(0, posComa).toInt();
-                    // Recorta el string para procesar lo que queda
-                    datos = datos.substring(posComa + 1);
+                while (datos.length() > 0 && indiceValores < numeroTanques) {
+                    int posComa = datos.indexOf(',');
+
+                    if (posComa == -1) {
+                        recetaRecibida[indiceValores] = datos.toInt();
+                        datos = "";
+                    } else {
+                        recetaRecibida[indiceValores] = datos.substring(0, posComa).toInt();
+                        datos = datos.substring(posComa + 1);
+                    }
+                    indiceValores++;
                 }
-                indiceValores++;
+
+                bool exito = procesarPedidoBebida(recetaRecibida);
+
+                //Enviamos un comando hacia la pc para confirmar si el pedido fue procesado adecuadamente
+                mensaje = exito ? "BEBIDA_LISTA" : "PROCESO_FALLIDO";
+                break;
             }
 
-            // Enviamos el arreglo extraído a procesar
-            bool exito = procesarPedidoBebida(recetaRecibida);
+            case CMD_REPORTE_TANQUE:
+            
+                GenerarReporteTanques();
 
-            if (exito) {
-                Serial.println("BEBIDA_LISTA");
-            } else {
-                Serial.println("PROCESO_FALLIDO");
-            }
+                for(int i = 0;  i < numeroTanques; i++){
+                    mensaje += reporteTanque[i] + "|";
+                }
+
+                break;
+
+            case CMD_DESCONOCIDO:
+                mensaje = "COMANDO DESCONOCIDO";
+            default:
+                mensaje = "ERROR_COMANDO";
+                break;
+
         }
+        Serial.println(mensaje);
     }
 }
