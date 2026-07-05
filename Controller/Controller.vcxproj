@@ -121,6 +121,7 @@
   <ItemGroup>
     <ClInclude Include="Controller.h" />
     <ClInclude Include="HadwareController.h" />
+    <ClInclude Include="VentaController.h" />
     <ClInclude Include="InventarioController.h" />
     <ClInclude Include="MixerController.h" />
     <ClInclude Include="pch.h" />
@@ -141,6 +142,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="PedidoController.cpp" />
+    <ClCompile Include="VentanaController.cpp" />
     <ClCompile Include="UsuarioController.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -152,7 +154,6 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Windows.Forms.DataVisualization.Design" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>

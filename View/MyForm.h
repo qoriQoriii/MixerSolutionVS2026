@@ -12,6 +12,7 @@ namespace View {
 	using namespace System::Data;
 	using namespace System::Drawing;
 	using namespace ControllerMixer;
+	using namespace System::Data::SqlClient;
 
 
 	/// <summary>
@@ -89,7 +90,7 @@ namespace View {
 			// 
 			// txtUsuario
 			// 
-			this->txtUsuario->Location = System::Drawing::Point(179, 202);
+			this->txtUsuario->Location = System::Drawing::Point(252, 213);
 			this->txtUsuario->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
 			this->txtUsuario->Name = L"txtUsuario";
 			this->txtUsuario->Size = System::Drawing::Size(148, 30);
@@ -98,7 +99,7 @@ namespace View {
 			// 
 			// txtContra
 			// 
-			this->txtContra->Location = System::Drawing::Point(179, 274);
+			this->txtContra->Location = System::Drawing::Point(252, 285);
 			this->txtContra->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
 			this->txtContra->Name = L"txtContra";
 			this->txtContra->Size = System::Drawing::Size(148, 30);
@@ -112,7 +113,7 @@ namespace View {
 			this->label1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->label1->ForeColor = System::Drawing::SystemColors::ButtonFace;
-			this->label1->Location = System::Drawing::Point(35, 202);
+			this->label1->Location = System::Drawing::Point(130, 213);
 			this->label1->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
 			this->label1->Name = L"label1";
 			this->label1->Size = System::Drawing::Size(53, 25);
@@ -127,7 +128,7 @@ namespace View {
 			this->label2->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->label2->ForeColor = System::Drawing::Color::Transparent;
-			this->label2->Location = System::Drawing::Point(35, 274);
+			this->label2->Location = System::Drawing::Point(108, 285);
 			this->label2->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
 			this->label2->Name = L"label2";
 			this->label2->Size = System::Drawing::Size(98, 25);
@@ -141,7 +142,7 @@ namespace View {
 			this->button1->FlatAppearance->BorderSize = 0;
 			this->button1->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
 			this->button1->ForeColor = System::Drawing::SystemColors::ActiveCaptionText;
-			this->button1->Location = System::Drawing::Point(127, 363);
+			this->button1->Location = System::Drawing::Point(200, 374);
 			this->button1->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
 			this->button1->Name = L"button1";
 			this->button1->Size = System::Drawing::Size(112, 35);
@@ -167,6 +168,7 @@ namespace View {
 			this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::FixedSingle;
 			this->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
 			this->Name = L"MyForm";
+			this->StartPosition = System::Windows::Forms::FormStartPosition::CenterScreen;
 			this->Text = L"MyForm";
 			this->Load += gcnew System::EventHandler(this, &MyForm::MyForm_Load);
 			this->ResumeLayout(false);
@@ -179,6 +181,62 @@ namespace View {
 	private: System::Void textBox1_TextChanged(System::Object^ sender, System::EventArgs^ e) {
 	}
 	private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e) {
+		try
+		{
+			String^ cadena =
+				"Server=200.16.7.140;"
+				"Database=a20201150;"
+				"User Id=a20201150;"
+				"Password=f0wHl52n;"
+				"TrustServerCertificate=True;";
+
+			SqlConnection^ conexion = gcnew SqlConnection(cadena);
+			conexion->Open();
+			String^ user = this->txtUsuario->Text;
+			String^ password = this->txtContra->Text;
+
+			SqlCommand^ cmd = gcnew SqlCommand(
+				"SELECT TipoUsuario FROM Usuarios WHERE DNI = @dni AND Contrasena = @contra",
+				conexion);
+
+			cmd->Parameters->AddWithValue("@dni", user);
+			cmd->Parameters->AddWithValue("@contra", password);
+
+			Object^ resultado = cmd->ExecuteScalar();
+
+			if (resultado != nullptr)
+			{
+				String^ tipoUsuario = resultado->ToString();
+
+				this->Hide();
+
+				if (tipoUsuario == "Administrador")
+				{
+					Admin^ admin_menu = gcnew Admin();
+					admin_menu->ShowDialog();
+				}
+				else
+				{
+					Client^ client_menu = gcnew Client();
+					client_menu->ShowDialog();
+				}
+
+				this->Close();
+			}
+			else
+			{
+				MessageBox::Show("Usuario o contraseña incorrectos");
+			}
+
+			//MessageBox::Show("Conexión exitosa");
+
+			conexion->Close();
+		}
+		catch (Exception^ ex)
+		{
+			MessageBox::Show(ex->Message);
+		}
+		/*
 		String^ user = this->txtUsuario->Text;
 		String^ password = this->txtContra->Text;
 
@@ -207,6 +265,7 @@ namespace View {
 			txtUsuario->Clear();
 			txtUsuario->Focus();
 		}
+		*/
 	}
 	private: System::Void pictureBox1_Click(System::Object^ sender, System::EventArgs^ e) {
 	}

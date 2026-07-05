@@ -39,6 +39,12 @@ namespace PersistenciaMixer {
 		static String^ fileMixersTxt = "..\\..\\..\Datos\\MixersData.txt";
 		static String^ fileMixersXml = "..\\..\\..\Datos\\MixersData.xml";
 
+		//Archivos de Ventas unificadas
+		static String^ fileVentasBin = "..\\..\\..\\Datos\\VentasData.bin";
+		static String^ fileVentasTxt = "..\\..\\..\\Datos\\VentasData.txt";
+		static String^ fileVentasXml = "..\\..\\..\\Datos\\VentasData.xml";
+
+
 	public:
 
 		// ── CARGAR ────────────────────────────────────────────────────────────
@@ -138,6 +144,25 @@ namespace PersistenciaMixer {
 			catch (Exception^) {}
 		}
 
+		static List<Venta^>^ CargarVentas() {
+			if (File::Exists(fileVentasBin)) {
+				try {
+					FileStream^ fs = gcnew FileStream(fileVentasBin, FileMode::Open);
+					BinaryFormatter^ bf = gcnew BinaryFormatter();
+					List<Venta^>^ lista = (List<Venta^>^)bf->Deserialize(fs);
+					fs->Close();
+					return lista;
+				}
+				catch (Exception^) { return gcnew List<Venta^>(); }
+			}
+			return gcnew List<Venta^>();
+		}
+
+		/// <summary>
+		/// ///
+		/// </summary>
+		/// <param name="lista"></param>
+
 		static void GuardarInsumos(List<Insumo^>^ lista) {
 			try {
 				FileStream^ fs = gcnew FileStream(fileInsumosBin, FileMode::Create);
@@ -217,5 +242,27 @@ namespace PersistenciaMixer {
 			}
 			catch (Exception^) {}
 		}
+
+		static void GuardarVentas(List<Venta^>^ lista) {
+			try {
+				FileStream^ fs = gcnew FileStream(fileVentasBin, FileMode::Create);
+				BinaryFormatter^ bf = gcnew BinaryFormatter();
+				bf->Serialize(fs, lista);
+				fs->Close();
+
+				XmlSerializer^ xml = gcnew XmlSerializer(List<Venta^>::typeid);
+				StreamWriter^ swXml = gcnew StreamWriter(fileVentasXml);
+				xml->Serialize(swXml, lista);
+				swXml->Close();
+
+				StreamWriter^ swTxt = gcnew StreamWriter(fileVentasTxt);
+				for each (Venta ^ v in lista)
+					swTxt->WriteLine(v->id + "|" + v->nombre + "|" + v->cantidadBebidas + "|" + v->costeTotal + "|" + v->fechaVenta);
+				swTxt->Close();
+			}
+			catch (Exception^) {}
+		}
+
+
 	};
 }

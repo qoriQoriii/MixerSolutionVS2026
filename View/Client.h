@@ -1,6 +1,8 @@
 #pragma once
+#include "Pago.h"
 
 using namespace System::IO;
+using namespace System::Data::SqlClient;
 
 namespace View {
 
@@ -48,9 +50,10 @@ namespace View {
 	private: System::Windows::Forms::Label^ label7;
 	private: System::Windows::Forms::CheckBox^ checkBoxHielo;
 	private: System::Windows::Forms::Button^ btnPreparar;
-	private: System::Windows::Forms::Label^ lblEstado;
-	private: System::Windows::Forms::ProgressBar^ progressBar1;
+
+
 	private: System::Windows::Forms::PictureBox^ pictureBox9;
+	private: System::Windows::Forms::Label^ label1;
 
 
 
@@ -81,9 +84,8 @@ namespace View {
 			this->label7 = (gcnew System::Windows::Forms::Label());
 			this->checkBoxHielo = (gcnew System::Windows::Forms::CheckBox());
 			this->btnPreparar = (gcnew System::Windows::Forms::Button());
-			this->lblEstado = (gcnew System::Windows::Forms::Label());
-			this->progressBar1 = (gcnew System::Windows::Forms::ProgressBar());
 			this->pictureBox9 = (gcnew System::Windows::Forms::PictureBox());
+			this->label1 = (gcnew System::Windows::Forms::Label());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox9))->BeginInit();
 			this->SuspendLayout();
 			// 
@@ -186,7 +188,7 @@ namespace View {
 			this->label7->Name = L"label7";
 			this->label7->Size = System::Drawing::Size(91, 25);
 			this->label7->TabIndex = 9;
-			this->label7->Text = L"Tamaño:";
+			this->label7->Text = L"Tamano:";
 			// 
 			// checkBoxHielo
 			// 
@@ -199,6 +201,7 @@ namespace View {
 			this->checkBoxHielo->TabIndex = 10;
 			this->checkBoxHielo->Text = L"Agregar hielo";
 			this->checkBoxHielo->UseVisualStyleBackColor = false;
+			this->checkBoxHielo->CheckedChanged += gcnew System::EventHandler(this, &Client::checkBoxHielo_CheckedChanged);
 			// 
 			// btnPreparar
 			// 
@@ -210,24 +213,6 @@ namespace View {
 			this->btnPreparar->UseVisualStyleBackColor = true;
 			this->btnPreparar->Click += gcnew System::EventHandler(this, &Client::btnPreparar_Click);
 			// 
-			// lblEstado
-			// 
-			this->lblEstado->AutoSize = true;
-			this->lblEstado->BackColor = System::Drawing::Color::Transparent;
-			this->lblEstado->ForeColor = System::Drawing::Color::Transparent;
-			this->lblEstado->Location = System::Drawing::Point(219, 479);
-			this->lblEstado->Name = L"lblEstado";
-			this->lblEstado->Size = System::Drawing::Size(84, 16);
-			this->lblEstado->TabIndex = 12;
-			this->lblEstado->Text = L"Estado: Listo";
-			// 
-			// progressBar1
-			// 
-			this->progressBar1->Location = System::Drawing::Point(151, 511);
-			this->progressBar1->Name = L"progressBar1";
-			this->progressBar1->Size = System::Drawing::Size(216, 23);
-			this->progressBar1->TabIndex = 13;
-			// 
 			// pictureBox9
 			// 
 			this->pictureBox9->BackColor = System::Drawing::Color::Transparent;
@@ -237,6 +222,19 @@ namespace View {
 			this->pictureBox9->TabIndex = 14;
 			this->pictureBox9->TabStop = false;
 			// 
+			// label1
+			// 
+			this->label1->AutoSize = true;
+			this->label1->BackColor = System::Drawing::Color::Transparent;
+			this->label1->Font = (gcnew System::Drawing::Font(L"Segoe UI", 9, System::Drawing::FontStyle::Italic, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->label1->ForeColor = System::Drawing::Color::White;
+			this->label1->Location = System::Drawing::Point(25, 21);
+			this->label1->Name = L"label1";
+			this->label1->Size = System::Drawing::Size(128, 20);
+			this->label1->TabIndex = 15;
+			this->label1->Text = L"Sistema Mixer v1.0";
+			// 
 			// Client
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
@@ -245,9 +243,8 @@ namespace View {
 			this->BackgroundImage = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"$this.BackgroundImage")));
 			this->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Stretch;
 			this->ClientSize = System::Drawing::Size(893, 546);
+			this->Controls->Add(this->label1);
 			this->Controls->Add(this->pictureBox9);
-			this->Controls->Add(this->progressBar1);
-			this->Controls->Add(this->lblEstado);
 			this->Controls->Add(this->btnPreparar);
 			this->Controls->Add(this->checkBoxHielo);
 			this->Controls->Add(this->label7);
@@ -261,6 +258,7 @@ namespace View {
 			this->ImeMode = System::Windows::Forms::ImeMode::Disable;
 			this->Margin = System::Windows::Forms::Padding(4);
 			this->Name = L"Client";
+			this->StartPosition = System::Windows::Forms::FormStartPosition::CenterScreen;
 			this->Text = L"Client";
 			this->Load += gcnew System::EventHandler(this, &Client::Client_Load);
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox9))->EndInit();
@@ -278,17 +276,41 @@ namespace View {
 		}
 
 		// Bebidas disponibles
+		/*
 		comboBoxBebida->Items->Add("Mojito");
 		comboBoxBebida->Items->Add("Cuba Libre");
 		comboBoxBebida->Items->Add("Daikiri");
+		*/
+		String^ cadena =
+			"Server=200.16.7.140;"
+			"Database=a20201150;"
+			"User Id=a20201150;"
+			"Password=f0wHl52n;"
+			"TrustServerCertificate=True;";
+
+		SqlConnection^ conexion = gcnew SqlConnection(cadena);
+		conexion->Open();
+
+		SqlCommand^ cmd = gcnew SqlCommand(
+			"SELECT Nombre FROM Bebidas",
+			conexion);
+
+		SqlDataReader^ reader = cmd->ExecuteReader();
+
+		while (reader->Read())
+		{
+			comboBoxBebida->Items->Add(reader->GetString(0));
+		}
+
+		reader->Close();
+		conexion->Close();
 
 		// Tamaños
-		comboBoxTamano->Items->Add("Pequeño");
-		comboBoxTamano->Items->Add("Mediano");
-		comboBoxTamano->Items->Add("Grande");
+		comboBoxTamano->Items->Add("Small");
+		comboBoxTamano->Items->Add("Medium");
+		comboBoxTamano->Items->Add("Large");
 
-		lblEstado->Text = "Estado: Listo";
-		progressBar1->Value = 0;
+
 	}
 
 	private: System::Void pictureBox1_Click(System::Object^ sender, System::EventArgs^ e) {
@@ -296,37 +318,37 @@ namespace View {
 	private: System::Void label6_Click(System::Object^ sender, System::EventArgs^ e) {
 	}
 	private: System::Void btnPreparar_Click(System::Object^ sender, System::EventArgs^ e) {
+
 		if (comboBoxBebida->SelectedIndex == -1) {
 			MessageBox::Show("Seleccione una bebida");
 			return;
 		}
 
 		if (comboBoxTamano->SelectedIndex == -1) {
-			MessageBox::Show("Seleccione un tamaño");
+			MessageBox::Show("Seleccione un tamano");
 			return;
 		}
 
-		lblEstado->Text = "Estado: Preparando bebida...";
-		progressBar1->Value = 100;
-
-		String^ bebida = comboBoxBebida->Text;
-		String^ tamano = comboBoxTamano->Text;
-
-		String^ hielo;
-
-		if (checkBoxHielo->Checked)
-			hielo = "Con hielo";
-		else
-			hielo = "Sin hielo";
+		String^ hielo = checkBoxHielo->Checked ? "Si" : "No";
 
 		MessageBox::Show(
-			"Bebida: " + bebida +
-			"\nTamaño: " + tamano +
-			"\n" + hielo,
-			"Pedido realizado"
-		);
+			"Bebida: " + comboBoxBebida->Text +
+			"\nTamano: " + comboBoxTamano->Text +
+			"\nHielo: " + hielo,
+			"Resumen del pedido");
 
-		lblEstado->Text = "Estado: Bebida lista";
+		this->Hide();
+
+		Pago^ p = gcnew Pago();
+		p->ShowDialog();
+
+		this->Show();
+
 	}
-	};
+	private: System::Void checkBoxHielo_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
+		if (checkBoxHielo->Checked){
+
+		}
+	}
+};
 }

@@ -1,4 +1,6 @@
 #pragma once
+#include "Inventario.h"
+#include "Pedidos.h"
 #include "VentanaReporte.h"
 namespace View {
 
@@ -60,8 +62,10 @@ namespace View {
 
 
 	private: System::Windows::Forms::Button^ button3;
-	private: System::Windows::Forms::Button^ btnReporte;
+
 	private: System::Windows::Forms::Button^ btnInventario;
+	private: System::Windows::Forms::Button^ botonreporte;
+
 	protected:
 
 	private:
@@ -93,7 +97,7 @@ namespace View {
 			this->btnPedidos = (gcnew System::Windows::Forms::Button());
 			this->button3 = (gcnew System::Windows::Forms::Button());
 			this->btnInventario = (gcnew System::Windows::Forms::Button());
-			this->btnReporte = (gcnew System::Windows::Forms::Button());
+			this->botonreporte = (gcnew System::Windows::Forms::Button());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBoxMixer1))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBoxMixer2))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBoxMixer3))->BeginInit();
@@ -122,7 +126,7 @@ namespace View {
 			this->label2->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 14.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->label2->ForeColor = System::Drawing::Color::White;
-			this->label2->Location = System::Drawing::Point(186, 201);
+			this->label2->Location = System::Drawing::Point(187, 201);
 			this->label2->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
 			this->label2->Name = L"label2";
 			this->label2->Size = System::Drawing::Size(91, 29);
@@ -136,7 +140,7 @@ namespace View {
 			this->label3->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 14.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->label3->ForeColor = System::Drawing::Color::White;
-			this->label3->Location = System::Drawing::Point(442, 201);
+			this->label3->Location = System::Drawing::Point(443, 201);
 			this->label3->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
 			this->label3->Name = L"label3";
 			this->label3->Size = System::Drawing::Size(91, 29);
@@ -150,7 +154,7 @@ namespace View {
 			this->label4->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 14.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->label4->ForeColor = System::Drawing::Color::White;
-			this->label4->Location = System::Drawing::Point(186, 385);
+			this->label4->Location = System::Drawing::Point(187, 385);
 			this->label4->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
 			this->label4->Name = L"label4";
 			this->label4->Size = System::Drawing::Size(91, 29);
@@ -164,7 +168,7 @@ namespace View {
 			this->label5->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 14.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->label5->ForeColor = System::Drawing::Color::White;
-			this->label5->Location = System::Drawing::Point(442, 385);
+			this->label5->Location = System::Drawing::Point(443, 385);
 			this->label5->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
 			this->label5->Name = L"label5";
 			this->label5->Size = System::Drawing::Size(91, 29);
@@ -206,7 +210,7 @@ namespace View {
 			this->label8->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9.75F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->label8->ForeColor = System::Drawing::Color::LimeGreen;
-			this->label8->Location = System::Drawing::Point(178, 246);
+			this->label8->Location = System::Drawing::Point(179, 246);
 			this->label8->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
 			this->label8->Name = L"label8";
 			this->label8->Size = System::Drawing::Size(117, 20);
@@ -229,7 +233,8 @@ namespace View {
 			// 
 			// pictureBoxMixer1
 			// 
-			this->pictureBoxMixer1->Location = System::Drawing::Point(174, 154);
+			this->pictureBoxMixer1->Location = System::Drawing::Point(173, 154);
+			this->pictureBoxMixer1->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
 			this->pictureBoxMixer1->Name = L"pictureBoxMixer1";
 			this->pictureBoxMixer1->Size = System::Drawing::Size(121, 33);
 			this->pictureBoxMixer1->SizeMode = System::Windows::Forms::PictureBoxSizeMode::StretchImage;
@@ -240,6 +245,7 @@ namespace View {
 			// pictureBoxMixer2
 			// 
 			this->pictureBoxMixer2->Location = System::Drawing::Point(428, 145);
+			this->pictureBoxMixer2->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
 			this->pictureBoxMixer2->Name = L"pictureBoxMixer2";
 			this->pictureBoxMixer2->Size = System::Drawing::Size(117, 42);
 			this->pictureBoxMixer2->SizeMode = System::Windows::Forms::PictureBoxSizeMode::StretchImage;
@@ -248,7 +254,8 @@ namespace View {
 			// 
 			// pictureBoxMixer3
 			// 
-			this->pictureBoxMixer3->Location = System::Drawing::Point(174, 304);
+			this->pictureBoxMixer3->Location = System::Drawing::Point(173, 304);
+			this->pictureBoxMixer3->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
 			this->pictureBoxMixer3->Name = L"pictureBoxMixer3";
 			this->pictureBoxMixer3->Size = System::Drawing::Size(121, 33);
 			this->pictureBoxMixer3->SizeMode = System::Windows::Forms::PictureBoxSizeMode::StretchImage;
@@ -258,6 +265,7 @@ namespace View {
 			// pictureBoxMixer4
 			// 
 			this->pictureBoxMixer4->Location = System::Drawing::Point(424, 304);
+			this->pictureBoxMixer4->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
 			this->pictureBoxMixer4->Name = L"pictureBoxMixer4";
 			this->pictureBoxMixer4->Size = System::Drawing::Size(121, 33);
 			this->pictureBoxMixer4->SizeMode = System::Windows::Forms::PictureBoxSizeMode::StretchImage;
@@ -271,12 +279,14 @@ namespace View {
 			this->btnPedidos->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10.2F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->btnPedidos->ForeColor = System::Drawing::Color::White;
-			this->btnPedidos->Location = System::Drawing::Point(228, 522);
+			this->btnPedidos->Location = System::Drawing::Point(202, 522);
+			this->btnPedidos->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
 			this->btnPedidos->Name = L"btnPedidos";
-			this->btnPedidos->Size = System::Drawing::Size(119, 33);
+			this->btnPedidos->Size = System::Drawing::Size(151, 33);
 			this->btnPedidos->TabIndex = 14;
-			this->btnPedidos->Text = L"Pedidos";
+			this->btnPedidos->Text = L"Dispensadores";
 			this->btnPedidos->UseVisualStyleBackColor = false;
+			this->btnPedidos->Click += gcnew System::EventHandler(this, &Admin::btnPedidos_Click);
 			// 
 			// button3
 			// 
@@ -285,7 +295,8 @@ namespace View {
 			this->button3->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 7.8F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->button3->ForeColor = System::Drawing::Color::White;
-			this->button3->Location = System::Drawing::Point(534, 519);
+			this->button3->Location = System::Drawing::Point(553, 523);
+			this->button3->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
 			this->button3->Name = L"button3";
 			this->button3->Size = System::Drawing::Size(173, 33);
 			this->button3->TabIndex = 15;
@@ -300,24 +311,29 @@ namespace View {
 			this->btnInventario->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10.2F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->btnInventario->ForeColor = System::Drawing::Color::White;
-			this->btnInventario->Location = System::Drawing::Point(49, 522);
+			this->btnInventario->Location = System::Drawing::Point(39, 522);
+			this->btnInventario->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
 			this->btnInventario->Name = L"btnInventario";
-			this->btnInventario->Size = System::Drawing::Size(138, 33);
+			this->btnInventario->Size = System::Drawing::Size(139, 33);
 			this->btnInventario->TabIndex = 16;
-			this->btnInventario->Text = L"Inventario";
+			this->btnInventario->Text = L"Bebidas";
 			this->btnInventario->UseVisualStyleBackColor = false;
+			this->btnInventario->Click += gcnew System::EventHandler(this, &Admin::btnInventario_Click);
 			// 
-			// btnReporte
+			// botonreporte
 			// 
-			this->btnReporte->BackColor = System::Drawing::SystemColors::ActiveCaptionText;
-			this->btnReporte->ForeColor = System::Drawing::SystemColors::ButtonHighlight;
-			this->btnReporte->Location = System::Drawing::Point(374, 515);
-			this->btnReporte->Name = L"btnReporte";
-			this->btnReporte->Size = System::Drawing::Size(120, 40);
-			this->btnReporte->TabIndex = 0;
-			this->btnReporte->Text = L"Reporte";
-			this->btnReporte->UseVisualStyleBackColor = false;
-			this->btnReporte->Click += gcnew System::EventHandler(this, &Admin::btnReporte_Click);
+			this->botonreporte->BackColor = System::Drawing::SystemColors::ActiveCaptionText;
+			this->botonreporte->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+			this->botonreporte->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10.2F));
+			this->botonreporte->ForeColor = System::Drawing::Color::White;
+			this->botonreporte->Location = System::Drawing::Point(375, 522);
+			this->botonreporte->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
+			this->botonreporte->Name = L"botonreporte";
+			this->botonreporte->Size = System::Drawing::Size(151, 33);
+			this->botonreporte->TabIndex = 14;
+			this->botonreporte->Text = L"Reporte";
+			this->botonreporte->UseVisualStyleBackColor = false;
+			this->botonreporte->Click += gcnew System::EventHandler(this, &Admin::btnReporte_Click);
 			// 
 			// Admin
 			// 
@@ -325,7 +341,7 @@ namespace View {
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->BackColor = System::Drawing::SystemColors::ActiveCaption;
 			this->ClientSize = System::Drawing::Size(753, 587);
-			this->Controls->Add(this->btnReporte);
+			this->Controls->Add(this->botonreporte);
 			this->Controls->Add(this->btnInventario);
 			this->Controls->Add(this->button3);
 			this->Controls->Add(this->btnPedidos);
@@ -342,8 +358,9 @@ namespace View {
 			this->Controls->Add(this->label3);
 			this->Controls->Add(this->label2);
 			this->Controls->Add(this->label1);
-			this->Margin = System::Windows::Forms::Padding(4);
+			this->Margin = System::Windows::Forms::Padding(4, 4, 4, 4);
 			this->Name = L"Admin";
+			this->StartPosition = System::Windows::Forms::FormStartPosition::CenterScreen;
 			this->Text = L"Admin";
 			this->Load += gcnew System::EventHandler(this, &Admin::Admin_Load);
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBoxMixer1))->EndInit();
@@ -355,20 +372,33 @@ namespace View {
 
 		}
 #pragma endregion
+
 	private: System::Void btnReporte_Click(System::Object^ sender, System::EventArgs^ e) {
 		// Instanciar y abrir la ventana como un diálogo modal centrado
 		mixer::VentanaReporte^ ventana = gcnew mixer::VentanaReporte();
 		ventana->ShowDialog();
 	}
+
 	private: System::Void label1_Click(System::Object^ sender, System::EventArgs^ e) {
 	}
 	private: System::Void Admin_Load(System::Object^ sender, System::EventArgs^ e) {
 	}
 	private: System::Void pictureBox1_Click(System::Object^ sender, System::EventArgs^ e) {
-
+	
 	}
 	private: System::Void button3_Click(System::Object^ sender, System::EventArgs^ e) {
-		//Application::Exit();
+
+		this->Close();
 	}
-	};
+	private: System::Void btnInventario_Click(System::Object^ sender, System::EventArgs^ e) {
+		Inventario^ inv = gcnew Inventario();
+		inv->ShowDialog();
+		//ShowDialog abre la ventana y obliga al usuario a cerrarla antes de volver al Admin. 
+	}
+private: System::Void btnPedidos_Click(System::Object^ sender, System::EventArgs^ e) {
+	Pedidos^ ped = gcnew Pedidos();
+	ped->ShowDialog();
+	
+}
+};
 }
