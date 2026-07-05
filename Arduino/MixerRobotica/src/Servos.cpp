@@ -1,3 +1,4 @@
+/*
 #include <Arduino.h>
 #include <Servo.h>
 #include "Config.h"
@@ -30,3 +31,4 @@ void moverServos(int a1, int a2, int a3, int a4) {
     moverServo(3, a3);
     moverServo(4, a4);
 }
+*/

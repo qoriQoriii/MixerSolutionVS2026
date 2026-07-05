@@ -7,7 +7,7 @@
 #include "BombaAgua.h"
 
 void inicializarTodoElHardware() {
-    inicializarServos();
+    //inicializarServos();
     inicializarSensores();
     inicializarMotor();
     inicializarBombas();

@@ -37,34 +37,38 @@ void leerTodasDistancias(int destino[]) {
     }
 }
 
-int [] GenerarReporteTanques() {
+
+void GenerarReporteTanques() { 
 
     int lecturas[numeroTanques] = {}; 
     leerTodasDistancias(lecturas);
 
-    for (int i = 0; i < numeroTanques ;i++){
+    for (int i = 0; i < numeroTanques; i++) {
 
+        if (lecturas[i] != -1 && lecturas[i] >= LecturaMinimaTanqueDistancia && lecturas[i] <= LecturaMaxTanqueDistancia) {
 
-        if(lecturas[i] != -1 && lecturas[i] >= LecturaMinimaTanqueDistancia && lecturas[i] <= LecturaMaxTanqueDistancia){
+            // 1. CORRECCIÓN: Casteo a float para evitar división entera
+            float range = 1.0f - ((float)(lecturas[i] - LecturaMinimaTanqueDistancia) / (LecturaMaxTanqueDistancia - LecturaMinimaTanqueDistancia));
 
-            float range = 1 - ((lecturas[i] - LecturaMinimaTanqueDistancia)/(LecturaMaxTanqueDistancia- LecturaMinimaTanqueDistancia));
+            // 2. CORRECCIÓN: Estructura de condiciones corregida para C++
+            if (range >= 0.8) {
+                reporteTanque[i] = "Tanque " + String(i + 1) + " 80-100 %";
+            } else if (range >= 0.5) {
+                reporteTanque[i] = "Tanque " + String(i + 1) + " 50-80 %";
+            } else if (range >= 0.2) {
+                reporteTanque[i] = "Tanque " + String(i + 1) + " 20-50 %";
+            } else {
+                reporteTanque[i] = "Tanque " + String(i + 1) + " 0-20 %";
+            }
 
-
-            if(0.8 <= range < 1) reporteTanque[i] = "Tanque" + String(i + 1) + " 80-100 %";
-            else if(0.5 <= range < 0.8 ) reporteTanque[i] = "Tanque" + String(i + 1) + " 50-80 %";
-            else if(0.2 <= range < 0.5 ) reporteTanque[i] = "Tanque" + String(i + 1) + " 20-50 %";
-            else if(0.0 <= range < 0.2 ) reporteTanque[i] = "Tanque" + String(i + 1) + " 0-20 %";
-
-
-
-        }else reporteTanque[i] = "ERROR LECTURA/RANGO"; //No se realizo la lectura correctamente
-
-
+        } else {
+            reporteTanque[i] = "ERROR LECTURA/RANGO";
+             // No se realizó la lectura correctamente
+        }
     }
 
-    return reporteTanque; //Retorna el arreglo de Strings con el reporte de cada tanque
+    Serial.println("Reporte de Tanques Generado.");
+    Serial.println("Reporte: \n" + String(reporteTanque[0]) + " | " + String(reporteTanque[1]) + " | " + String(reporteTanque[2]) + " | " + String(reporteTanque[3]));
+
     
-
-
 }
-
