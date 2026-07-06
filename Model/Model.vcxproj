@@ -121,6 +121,7 @@
   <ItemGroup>
     <ClInclude Include="Actuadores.h" />
     <ClInclude Include="Administrador.h" />
+    <ClInclude Include="ArduinoController.h" />
     <ClInclude Include="Bebida.h" />
     <ClInclude Include="Cliente.h" />
     <ClInclude Include="Componente.h" />
