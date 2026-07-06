@@ -39,66 +39,83 @@ namespace mixer {
 #pragma region Windows Form Designer generated code
         void InitializeComponent(void)
         {
-            System::Windows::Forms::DataVisualization::Charting::ChartArea^ chartArea2 = (gcnew System::Windows::Forms::DataVisualization::Charting::ChartArea());
-            System::Windows::Forms::DataVisualization::Charting::Series^ series2 = (gcnew System::Windows::Forms::DataVisualization::Charting::Series());
+            System::Windows::Forms::DataVisualization::Charting::ChartArea^ chartArea1 = (gcnew System::Windows::Forms::DataVisualization::Charting::ChartArea());
+            System::Windows::Forms::DataVisualization::Charting::Series^ series1 = (gcnew System::Windows::Forms::DataVisualization::Charting::Series());
             this->label1 = (gcnew System::Windows::Forms::Label());
             this->label2 = (gcnew System::Windows::Forms::Label());
             this->chartTanques = (gcnew System::Windows::Forms::DataVisualization::Charting::Chart());
             this->btnCerrar = (gcnew System::Windows::Forms::Button());
             (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->chartTanques))->BeginInit();
             this->SuspendLayout();
-
+            // 
+            // label1
+            // 
             this->label1->BackColor = System::Drawing::Color::Transparent;
             this->label1->Font = (gcnew System::Drawing::Font(L"Arial", 12, System::Drawing::FontStyle::Bold));
             this->label1->ForeColor = System::Drawing::Color::Black;
-            this->label1->Location = System::Drawing::Point(53, 31);
+            this->label1->Location = System::Drawing::Point(40, 25);
+            this->label1->Margin = System::Windows::Forms::Padding(2, 0, 2, 0);
             this->label1->Name = L"label1";
-            this->label1->Size = System::Drawing::Size(320, 55);
+            this->label1->Size = System::Drawing::Size(240, 45);
             this->label1->TabIndex = 0;
             this->label1->Text = L"Bebidas: Cargando...";
             this->label1->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
-
+            // 
+            // label2
+            // 
             this->label2->BackColor = System::Drawing::Color::Transparent;
             this->label2->Font = (gcnew System::Drawing::Font(L"Arial", 12, System::Drawing::FontStyle::Bold));
             this->label2->ForeColor = System::Drawing::Color::Black;
-            this->label2->Location = System::Drawing::Point(413, 31);
+            this->label2->Location = System::Drawing::Point(310, 25);
+            this->label2->Margin = System::Windows::Forms::Padding(2, 0, 2, 0);
             this->label2->Name = L"label2";
-            this->label2->Size = System::Drawing::Size(333, 55);
+            this->label2->Size = System::Drawing::Size(250, 45);
             this->label2->TabIndex = 1;
             this->label2->Text = L"Ingresos: Cargando...";
             this->label2->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
-
-            chartArea2->Name = L"ChartArea1";
-            this->chartTanques->ChartAreas->Add(chartArea2);
-            this->chartTanques->Location = System::Drawing::Point(53, 123);
+            // 
+            // chartTanques
+            // 
+            chartArea1->Name = L"ChartArea1";
+            this->chartTanques->ChartAreas->Add(chartArea1);
+            this->chartTanques->Location = System::Drawing::Point(40, 100);
+            this->chartTanques->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
             this->chartTanques->Name = L"chartTanques";
-            series2->ChartArea = L"ChartArea1";
-            series2->Name = L"Series1";
-            this->chartTanques->Series->Add(series2);
-            this->chartTanques->Size = System::Drawing::Size(693, 320);
+            series1->ChartArea = L"ChartArea1";
+            series1->Name = L"Series1";
+            this->chartTanques->Series->Add(series1);
+            this->chartTanques->Size = System::Drawing::Size(520, 260);
             this->chartTanques->TabIndex = 0;
             this->chartTanques->Text = L"chart1";
-
-            this->btnCerrar->Location = System::Drawing::Point(320, 480);
+            // 
+            // btnCerrar
+            // 
+            this->btnCerrar->Location = System::Drawing::Point(240, 390);
+            this->btnCerrar->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
             this->btnCerrar->Name = L"btnCerrar";
-            this->btnCerrar->Size = System::Drawing::Size(173, 43);
+            this->btnCerrar->Size = System::Drawing::Size(130, 35);
             this->btnCerrar->TabIndex = 1;
             this->btnCerrar->Text = L"Cerrar Ventana";
             this->btnCerrar->UseVisualStyleBackColor = true;
             this->btnCerrar->Click += gcnew System::EventHandler(this, &VentanaReporte::btnCerrar_Click);
-
-            this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
+            // 
+            // VentanaReporte
+            // 
+            this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
             this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-            this->ClientSize = System::Drawing::Size(800, 566);
+            this->ClientSize = System::Drawing::Size(600, 460);
             this->Controls->Add(this->label1);
             this->Controls->Add(this->label2);
             this->Controls->Add(this->btnCerrar);
             this->Controls->Add(this->chartTanques);
+            this->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
             this->Name = L"VentanaReporte";
             this->StartPosition = System::Windows::Forms::FormStartPosition::CenterScreen;
             this->Text = L"Reporte de Administración";
+            this->Load += gcnew System::EventHandler(this, &VentanaReporte::VentanaReporte_Load);
             (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->chartTanques))->EndInit();
             this->ResumeLayout(false);
+
         }
 #pragma endregion
 
@@ -173,5 +190,7 @@ namespace mixer {
         System::Void btnCerrar_Click(System::Object^ sender, System::EventArgs^ e) {
             this->Close();
         }
-    };
+    private: System::Void VentanaReporte_Load(System::Object^ sender, System::EventArgs^ e) {
+    }
+};
 }

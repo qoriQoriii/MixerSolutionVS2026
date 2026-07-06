@@ -50,6 +50,7 @@ namespace View {
 
 
 
+
 			if (components)
 			{
 				delete components;
@@ -173,6 +174,7 @@ namespace View {
 			this->Load += gcnew System::EventHandler(this, &MyForm::MyForm_Load);
 			this->ResumeLayout(false);
 			this->PerformLayout();
+
 
 		}
 #pragma endregion
