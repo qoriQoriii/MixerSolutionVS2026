@@ -47,3 +47,8 @@ List<Bebida^>^ ControllerMixer::InventarioController::GetAllBebidas()
 {
     return catalogo;
 }
+
+List<String^>^ ControllerMixer::InventarioController::ObtenerNombresBebidas();
+{
+    return PersistenciaMixer::PersistenciaManager::ObtenerNombresBebidasSQL();
+}

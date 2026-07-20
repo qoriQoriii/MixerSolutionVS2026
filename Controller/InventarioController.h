@@ -27,6 +27,8 @@ namespace ControllerMixer {
         static Bebida^ ReadBebida(int id);
         static void DeleteBebida(int id);
         static  List<Bebida^>^ GetAllBebidas();
+        static List<String^>^ ObtenerNombresBebidas()
+
 
         //persistencias xd
 

@@ -1,8 +1,9 @@
 #pragma once
 #include "Pago.h"
 
+
 using namespace System::IO;
-using namespace System::Data::SqlClient;
+//using namespace System::Data::SqlClient;
 using namespace ModelMixer;
 
 namespace View {
@@ -38,10 +39,10 @@ namespace View {
 			}
 		}
 
-	private: System::Windows::Forms::Label^ label2;
-	private: System::Windows::Forms::Label^ label3;
-	private: System::Windows::Forms::Label^ label4;
-	private: System::Windows::Forms::Label^ label5;
+
+
+
+
 
 	private: System::Windows::Forms::ComboBox^ comboBoxBebida;
 	private: System::Windows::Forms::ComboBox^ comboBoxTamano;
@@ -75,10 +76,6 @@ namespace View {
 		void InitializeComponent(void)
 		{
 			System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(Client::typeid));
-			this->label2 = (gcnew System::Windows::Forms::Label());
-			this->label3 = (gcnew System::Windows::Forms::Label());
-			this->label4 = (gcnew System::Windows::Forms::Label());
-			this->label5 = (gcnew System::Windows::Forms::Label());
 			this->comboBoxBebida = (gcnew System::Windows::Forms::ComboBox());
 			this->comboBoxTamano = (gcnew System::Windows::Forms::ComboBox());
 			this->label6 = (gcnew System::Windows::Forms::Label());
@@ -90,63 +87,11 @@ namespace View {
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox9))->BeginInit();
 			this->SuspendLayout();
 			// 
-			// label2
-			// 
-			this->label2->AutoSize = true;
-			this->label2->BackColor = System::Drawing::Color::Transparent;
-			this->label2->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(0)));
-			this->label2->ForeColor = System::Drawing::Color::Transparent;
-			this->label2->Location = System::Drawing::Point(29, 97);
-			this->label2->Name = L"label2";
-			this->label2->Size = System::Drawing::Size(175, 20);
-			this->label2->TabIndex = 1;
-			this->label2->Text = L"Nuestras opciones son:";
-			// 
-			// label3
-			// 
-			this->label3->AutoSize = true;
-			this->label3->BackColor = System::Drawing::Color::Transparent;
-			this->label3->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(0)));
-			this->label3->ForeColor = System::Drawing::Color::Transparent;
-			this->label3->Location = System::Drawing::Point(72, 151);
-			this->label3->Name = L"label3";
-			this->label3->Size = System::Drawing::Size(60, 20);
-			this->label3->TabIndex = 2;
-			this->label3->Text = L"- Mojito";
-			// 
-			// label4
-			// 
-			this->label4->AutoSize = true;
-			this->label4->BackColor = System::Drawing::Color::Transparent;
-			this->label4->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(0)));
-			this->label4->ForeColor = System::Drawing::Color::Transparent;
-			this->label4->Location = System::Drawing::Point(163, 151);
-			this->label4->Name = L"label4";
-			this->label4->Size = System::Drawing::Size(95, 20);
-			this->label4->TabIndex = 3;
-			this->label4->Text = L"- Cuba Libre";
-			// 
-			// label5
-			// 
-			this->label5->AutoSize = true;
-			this->label5->BackColor = System::Drawing::Color::Transparent;
-			this->label5->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(0)));
-			this->label5->ForeColor = System::Drawing::Color::Transparent;
-			this->label5->Location = System::Drawing::Point(271, 151);
-			this->label5->Name = L"label5";
-			this->label5->Size = System::Drawing::Size(61, 20);
-			this->label5->TabIndex = 4;
-			this->label5->Text = L"- Daikiri";
-			// 
 			// comboBoxBebida
 			// 
 			this->comboBoxBebida->FormattingEnabled = true;
-			this->comboBoxBebida->Location = System::Drawing::Point(233, 214);
-			this->comboBoxBebida->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
+			this->comboBoxBebida->Location = System::Drawing::Point(302, 206);
+			this->comboBoxBebida->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
 			this->comboBoxBebida->Name = L"comboBoxBebida";
 			this->comboBoxBebida->Size = System::Drawing::Size(92, 21);
 			this->comboBoxBebida->TabIndex = 6;
@@ -154,8 +99,8 @@ namespace View {
 			// comboBoxTamano
 			// 
 			this->comboBoxTamano->FormattingEnabled = true;
-			this->comboBoxTamano->Location = System::Drawing::Point(233, 281);
-			this->comboBoxTamano->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
+			this->comboBoxTamano->Location = System::Drawing::Point(302, 296);
+			this->comboBoxTamano->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
 			this->comboBoxTamano->Name = L"comboBoxTamano";
 			this->comboBoxTamano->Size = System::Drawing::Size(92, 21);
 			this->comboBoxTamano->TabIndex = 7;
@@ -167,7 +112,8 @@ namespace View {
 			this->label6->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->label6->ForeColor = System::Drawing::Color::Transparent;
-			this->label6->Location = System::Drawing::Point(62, 213);
+			this->label6->Location = System::Drawing::Point(74, 205);
+			this->label6->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
 			this->label6->Name = L"label6";
 			this->label6->Size = System::Drawing::Size(143, 20);
 			this->label6->TabIndex = 8;
@@ -181,7 +127,8 @@ namespace View {
 			this->label7->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
 			this->label7->ForeColor = System::Drawing::Color::Transparent;
-			this->label7->Location = System::Drawing::Point(62, 281);
+			this->label7->Location = System::Drawing::Point(74, 296);
+			this->label7->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
 			this->label7->Name = L"label7";
 			this->label7->Size = System::Drawing::Size(71, 20);
 			this->label7->TabIndex = 9;
@@ -192,8 +139,8 @@ namespace View {
 			this->checkBoxHielo->AutoSize = true;
 			this->checkBoxHielo->BackColor = System::Drawing::Color::Transparent;
 			this->checkBoxHielo->ForeColor = System::Drawing::Color::Transparent;
-			this->checkBoxHielo->Location = System::Drawing::Point(68, 336);
-			this->checkBoxHielo->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
+			this->checkBoxHielo->Location = System::Drawing::Point(55, 394);
+			this->checkBoxHielo->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
 			this->checkBoxHielo->Name = L"checkBoxHielo";
 			this->checkBoxHielo->Size = System::Drawing::Size(88, 17);
 			this->checkBoxHielo->TabIndex = 10;
@@ -203,10 +150,10 @@ namespace View {
 			// 
 			// btnPreparar
 			// 
-			this->btnPreparar->Location = System::Drawing::Point(210, 328);
-			this->btnPreparar->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
+			this->btnPreparar->Location = System::Drawing::Point(244, 384);
+			this->btnPreparar->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
 			this->btnPreparar->Name = L"btnPreparar";
-			this->btnPreparar->Size = System::Drawing::Size(134, 32);
+			this->btnPreparar->Size = System::Drawing::Size(179, 39);
 			this->btnPreparar->TabIndex = 11;
 			this->btnPreparar->Text = L"PREPARAR BEBIDA";
 			this->btnPreparar->UseVisualStyleBackColor = true;
@@ -215,10 +162,10 @@ namespace View {
 			// pictureBox9
 			// 
 			this->pictureBox9->BackColor = System::Drawing::Color::Transparent;
-			this->pictureBox9->Location = System::Drawing::Point(348, 167);
-			this->pictureBox9->Margin = System::Windows::Forms::Padding(2, 2, 2, 2);
+			this->pictureBox9->Location = System::Drawing::Point(464, 206);
+			this->pictureBox9->Margin = System::Windows::Forms::Padding(3, 2, 3, 2);
 			this->pictureBox9->Name = L"pictureBox9";
-			this->pictureBox9->Size = System::Drawing::Size(313, 193);
+			this->pictureBox9->Size = System::Drawing::Size(417, 238);
 			this->pictureBox9->TabIndex = 14;
 			this->pictureBox9->TabStop = false;
 			this->pictureBox9->Click += gcnew System::EventHandler(this, &Client::pictureBox9_Click);
@@ -253,11 +200,8 @@ namespace View {
 			this->Controls->Add(this->label6);
 			this->Controls->Add(this->comboBoxTamano);
 			this->Controls->Add(this->comboBoxBebida);
-			this->Controls->Add(this->label5);
-			this->Controls->Add(this->label4);
-			this->Controls->Add(this->label3);
-			this->Controls->Add(this->label2);
 			this->ImeMode = System::Windows::Forms::ImeMode::Disable;
+			this->Margin = System::Windows::Forms::Padding(4);
 			this->Name = L"Client";
 			this->StartPosition = System::Windows::Forms::FormStartPosition::CenterScreen;
 			this->Text = L"Client";
@@ -276,42 +220,18 @@ namespace View {
 			//pictureBox1->SizeMode = PictureBoxSizeMode::StretchImage;
 		}
 
-		// Bebidas disponibles
-		/*
-		comboBoxBebida->Items->Add("Mojito");
-		comboBoxBebida->Items->Add("Cuba Libre");
-		comboBoxBebida->Items->Add("Daikiri");
-		*/
-		String^ cadena =
-			"Server=200.16.7.140;"
-			"Database=a20201150;"
-			"User Id=a20201150;"
-			"Password=f0wHl52n;"
-			"TrustServerCertificate=True;";
+		// Obtener bebidas desde Controller
+		System::Collections::Generic::List<String^>^ bebidas = ControllerMixer::InventarioController::ObtenerNombresBebidas();
 
-		SqlConnection^ conexion = gcnew SqlConnection(cadena);
-		conexion->Open();
-
-		SqlCommand^ cmd = gcnew SqlCommand(
-			"SELECT Nombre FROM Bebidas",
-			conexion);
-
-		SqlDataReader^ reader = cmd->ExecuteReader();
-
-		while (reader->Read())
+		for each (String ^ nombre in bebidas)
 		{
-			comboBoxBebida->Items->Add(reader->GetString(0));
+			comboBoxBebida->Items->Add(nombre);
 		}
-
-		reader->Close();
-		conexion->Close();
 
 		// Tamaños
 		comboBoxTamano->Items->Add("Small");
 		comboBoxTamano->Items->Add("Medium");
 		comboBoxTamano->Items->Add("Large");
-
-
 	}
 
 	private: System::Void pictureBox1_Click(System::Object^ sender, System::EventArgs^ e) {

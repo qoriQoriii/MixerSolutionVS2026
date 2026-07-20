@@ -5,13 +5,56 @@ using namespace System::Collections::Generic;
 using namespace System::IO;
 using namespace System::Runtime::Serialization::Formatters::Binary;
 using namespace System::Xml::Serialization;
+//correccion de diego
+using namespace System::Data;
+using namespace System::Data::SqlClient;
 
 using namespace ModelMixer;
 
 namespace PersistenciaMixer {
 
-	public ref class PersistenciaManager
-	{
+	public ref class PersistenciaManager{
+
+	public:
+
+		static List<String^>^ ObtenerNombresBebidasSQL()
+		{
+			List<String^>^ bebidas = gcnew List<String^>();
+
+			String^ cadena =
+				"Server=200.16.7.140;"
+				"Database=a20201150;"
+				"User Id=a20201150;"
+				"Password=f0wHl52n;"
+				"TrustServerCertificate=True;";
+
+			SqlConnection^ conexion = gcnew SqlConnection(cadena);
+
+			try
+			{
+				conexion->Open();
+
+				SqlCommand^ cmd = gcnew SqlCommand(
+					"SELECT Nombre FROM Bebidas",
+					conexion);
+
+				SqlDataReader^ reader = cmd->ExecuteReader();
+
+				while (reader->Read())
+				{
+					bebidas->Add(reader->GetString(0));
+				}
+
+				reader->Close();
+			}
+			finally
+			{
+				if (conexion->State == ConnectionState::Open)
+					conexion->Close();
+			}
+
+			return bebidas;
+		}
 
 	public:
 		//Archivos del usuario
