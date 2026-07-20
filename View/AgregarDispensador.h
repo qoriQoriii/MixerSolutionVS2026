@@ -15,19 +15,24 @@ namespace View {
 	public ref class AgregarDispensador : public System::Windows::Forms::Form
 	{
 	public:
+		// Modo "Agregar": no hay id todavia (se asigna en la BD).
 		AgregarDispensador(void)
 		{
 			InitializeComponent();
-			
+			this->id = 0;
 		}
-		AgregarDispensador(String^ nom, String^ est)
+
+		// Modo "Modificar": se recibe el id real del mixer a editar.
+		AgregarDispensador(int id, String^ nom, String^ est)
 		{
 			InitializeComponent();
 
+			this->id = id;
 			txtNombre->Text = nom;
 			txtEstado->Text = est;
 		}
 
+		int id;
 		String^ nombre;
 		String^ estado;
 
@@ -56,7 +61,7 @@ namespace View {
 		/// <summary>
 		/// Variable del diseñador necesaria.
 		/// </summary>
-		System::ComponentModel::Container ^components;
+		System::ComponentModel::Container^ components;
 
 #pragma region Windows Form Designer generated code
 		/// <summary>
@@ -143,6 +148,7 @@ namespace View {
 			this->Name = L"AgregarDispensador";
 			this->StartPosition = System::Windows::Forms::FormStartPosition::CenterScreen;
 			this->Text = L"AgregarDispensador";
+			this->Load += gcnew System::EventHandler(this, &AgregarDispensador::AgregarDispensador_Load);
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
@@ -151,12 +157,21 @@ namespace View {
 	private: System::Void button2_Click(System::Object^ sender, System::EventArgs^ e) {
 		this->Close();
 	}
-private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e) {
-	nombre = txtNombre->Text;
-	estado = txtEstado->Text;
+	private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e) {
 
-	this->DialogResult = System::Windows::Forms::DialogResult::OK;
-	this->Close();
-}
+		if (String::IsNullOrWhiteSpace(txtNombre->Text) || String::IsNullOrWhiteSpace(txtEstado->Text)) {
+			MessageBox::Show("Nombre y estado son obligatorios.", "Datos incompletos",
+				MessageBoxButtons::OK, MessageBoxIcon::Warning);
+			return;
+		}
+
+		nombre = txtNombre->Text;
+		estado = txtEstado->Text;
+
+		this->DialogResult = System::Windows::Forms::DialogResult::OK;
+		this->Close();
+	}
+	private: System::Void AgregarDispensador_Load(System::Object^ sender, System::EventArgs^ e) {
+	}
 };
 }

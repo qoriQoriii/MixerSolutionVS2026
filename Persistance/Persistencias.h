@@ -68,6 +68,13 @@ namespace PersistenciaMixer {
 		static List<Insumo^>^ getAllInsumos();
 
 
+		// Métodos para Mixer
+		static bool AddMixer(Mixer^ m);
+		static List<Mixer^>^ GetAllMixers();
+		static Mixer^ ReadMixer(int id);
+		static bool UpdateMixer(Mixer^ m);
+		static bool DeleteMixer(int id);
+
 
 		static List<String^>^ ObtenerNombresBebidasSQL()
 		{

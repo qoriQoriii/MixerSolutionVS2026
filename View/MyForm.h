@@ -27,11 +27,13 @@ namespace View {
 			this->BackgroundImage = Image::FromFile(Application::StartupPath + "..\\..\\..\\imagenes\\bar.png");
 			this->BackgroundImageLayout = ImageLayout::Stretch;
 
+			/*
+			
 			ControllerMixer::UsuarioController::Cargar();
 			ControllerMixer::InventarioController::Cargar();
 			ControllerMixer::PedidoController::Cargar();
 			ControllerMixer::MixerController::Cargar();
-
+			*/
 
 
 			listaUsuarios = UsuarioController::GetAllUsuarios();
@@ -50,10 +52,12 @@ namespace View {
 
 		{
 
+			/*
 			ControllerMixer::UsuarioController::Guardar();
 			ControllerMixer::InventarioController::Guardar();
 			ControllerMixer::PedidoController::Guardar();
 			ControllerMixer::MixerController::Guardar();
+			*/
 
 
 

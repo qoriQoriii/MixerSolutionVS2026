@@ -13,11 +13,20 @@ namespace ModelMixer {
         property int id;
         property String^ ubicacion;
         property String^ estado;
-        property List<Bebida^>^ catalogo;
-        property List<Pedido^>^ pedidos;
-        property List<Tanque^>^ materiaPrima;
+
     public:
-        Mixer(int id, String^ ubi, String^ est, List<Bebida^>^ cat, List<Pedido^>^ ped, List<Tanque^>^ mat);
+        Mixer(int id, String^ ubicacion, String^ estado) {
+            this->id = id;
+            this->ubicacion = ubicacion;
+            this->estado = estado;
+        };
+
+        Mixer( String^ ubicacion, String^ estado) {
+            this->id = id;
+            this->ubicacion = ubicacion;
+            this->estado = estado;
+        };
+
 
     };
 }

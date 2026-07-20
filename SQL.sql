@@ -351,7 +351,105 @@ BEGIN
     FROM Insumos;
 END;
 GO
+USE a20201150;
+GO
 
+-- ============================================================
+-- 1. TABLA MIXERS
+-- ============================================================
+IF OBJECT_ID('dbo.Mixers', 'U') IS NOT NULL DROP TABLE dbo.Mixers;
+GO
+
+CREATE TABLE dbo.Mixers (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    Ubicacion VARCHAR(100) NOT NULL,
+    Estado VARCHAR(50) NOT NULL
+);
+GO
+
+-- ============================================================
+-- 2. PROCEDIMIENTOS ALMACENADOS (CRUD)
+-- ============================================================
+
+-- 2.1 INSERTAR
+IF OBJECT_ID('dbo.usp_InsertMixer', 'P') IS NOT NULL DROP PROCEDURE dbo.usp_InsertMixer;
+GO
+
+CREATE PROCEDURE usp_InsertMixer
+    @Id INT,
+    @Ubicacion VARCHAR(100),
+    @Estado VARCHAR(50)
+AS
+BEGIN
+    SET NOCOUNT ON;
+    INSERT INTO dbo.Mixers (Ubicacion, Estado)
+    VALUES (@Ubicacion, @Estado);
+END;
+GO
+
+-- 2.2 OBTENER TODOS
+-- 1. Eliminar el procedimiento si ya existe
+IF OBJECT_ID('dbo.usp_GetAllMixers', 'P') IS NOT NULL 
+    DROP PROCEDURE dbo.usp_GetAllMixers;
+GO
+
+-- 2. Crear el procedimiento con el orden descendente (los 4 más recientes primero)
+CREATE PROCEDURE usp_GetAllMixers
+AS
+BEGIN
+    SET NOCOUNT ON;
+    
+    SELECT Id, Ubicacion, Estado 
+    FROM dbo.Mixers 
+    ORDER BY Id DESC;
+END;
+
+-- 2.3 LEER POR ID
+IF OBJECT_ID('dbo.usp_ReadMixer', 'P') IS NOT NULL DROP PROCEDURE dbo.usp_ReadMixer;
+GO
+
+CREATE PROCEDURE usp_ReadMixer
+    @Id INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SELECT Id, Ubicacion, Estado FROM dbo.Mixers WHERE Id = @Id;
+END;
+GO
+
+-- 2.4 ACTUALIZAR
+IF OBJECT_ID('dbo.usp_UpdateMixer', 'P') IS NOT NULL DROP PROCEDURE dbo.usp_UpdateMixer;
+GO
+
+CREATE PROCEDURE usp_UpdateMixer
+    @Id INT,
+    @Ubicacion VARCHAR(100),
+    @Estado VARCHAR(50)
+AS
+BEGIN
+    SET NOCOUNT ON;
+    UPDATE dbo.Mixers
+    SET Ubicacion = @Ubicacion,
+        Estado = @Estado
+    WHERE Id = @Id;
+END;
+GO
+
+-- 2.5 ELIMINAR
+IF OBJECT_ID('dbo.usp_DeleteMixer', 'P') IS NOT NULL DROP PROCEDURE dbo.usp_DeleteMixer;
+GO
+
+CREATE PROCEDURE usp_DeleteMixer
+    @Id INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    DELETE FROM dbo.Mixers WHERE Id = @Id;
+END;
+GO
+
+
+--//////////////////////////////////
 
 
 select * from dbo.Bebidas
@@ -398,3 +496,18 @@ SELECT * FROM dbo.Usuarios;
 ALTER TABLE dbo.Ventas 
 ALTER COLUMN Coste FLOAT NOT NULL;
 GO
+
+-- Insertar 4 mixers de prueba
+INSERT INTO dbo.Mixers (Ubicacion, Estado)
+VALUES 
+
+    ('Zona A', 'Activo'),
+    ('Zona B', 'Desconectado');
+GO
+
+-- Verificar que se crearon correctamente
+SELECT * FROM dbo.Mixers;
+
+USE a20201150;
+GO
+

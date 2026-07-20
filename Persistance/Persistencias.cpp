@@ -662,5 +662,150 @@ namespace PersistenciaMixer {
         return listaInsumos;
     }
 
+
+
+
+    // ============================================================
+    // 4. CRUD MIXERS
+    // ============================================================
+
+    bool PersistenciaManager::AddMixer(Mixer^ m) {
+        SqlConnection^ conn = nullptr;
+        SqlCommand^ cmd = nullptr;
+        bool exito = false;
+
+        try {
+            conn = GetConnection();
+            cmd = gcnew SqlCommand("dbo.usp_InsertMixer", conn);
+            cmd->CommandType = CommandType::StoredProcedure;
+
+            cmd->Parameters->AddWithValue("@Id", m->id);
+            cmd->Parameters->AddWithValue("@Ubicacion", m->ubicacion);
+            cmd->Parameters->AddWithValue("@Estado", m->estado);
+
+            exito = (cmd->ExecuteNonQuery() > 0);
+        }
+        catch (Exception^ ex) {
+            Console::WriteLine("Error al agregar Mixer: " + ex->Message);
+        }
+        finally {
+            if (cmd != nullptr) delete cmd;
+            if (conn != nullptr) { conn->Close(); delete conn; }
+        }
+        return exito;
+    }
+
+    List<Mixer^>^ PersistenciaManager::GetAllMixers() {
+        SqlConnection^ conn = nullptr;
+        SqlCommand^ cmd = nullptr;
+        SqlDataReader^ reader = nullptr;
+        List<Mixer^>^ lista = gcnew List<Mixer^>();
+
+        try {
+            conn = GetConnection();
+            cmd = gcnew SqlCommand("dbo.usp_GetAllMixers", conn);
+            cmd->CommandType = CommandType::StoredProcedure;
+
+            reader = cmd->ExecuteReader();
+            while (reader->Read()) {
+                int id = reader->GetInt32(0);
+                String^ ubicacion = reader->GetString(1);
+                String^ estado = reader->GetString(2);
+
+                Mixer^ m = gcnew Mixer(id, ubicacion, estado);
+                lista->Add(m);
+            }
+        }
+        catch (Exception^ ex) {
+            Console::WriteLine("Error al obtener Mixers: " + ex->Message);
+        }
+        finally {
+            if (reader != nullptr) { reader->Close(); delete reader; }
+            if (cmd != nullptr) delete cmd;
+            if (conn != nullptr) { conn->Close(); delete conn; }
+        }
+        return lista;
+    }
+
+    Mixer^ PersistenciaManager::ReadMixer(int id) {
+        SqlConnection^ conn = nullptr;
+        SqlCommand^ cmd = nullptr;
+        SqlDataReader^ reader = nullptr;
+        Mixer^ m = nullptr;
+
+        try {
+            conn = GetConnection();
+            cmd = gcnew SqlCommand("dbo.usp_ReadMixer", conn);
+            cmd->CommandType = CommandType::StoredProcedure;
+            cmd->Parameters->AddWithValue("@Id", id);
+
+            reader = cmd->ExecuteReader();
+            if (reader->Read()) {
+                int mixerId = reader->GetInt32(0);
+                String^ ubicacion = reader->GetString(1);
+                String^ estado = reader->GetString(2);
+
+                m = gcnew Mixer(mixerId, ubicacion, estado);
+            }
+        }
+        catch (Exception^ ex) {
+            Console::WriteLine("Error al buscar Mixer: " + ex->Message);
+        }
+        finally {
+            if (reader != nullptr) { reader->Close(); delete reader; }
+            if (cmd != nullptr) delete cmd;
+            if (conn != nullptr) { conn->Close(); delete conn; }
+        }
+        return m;
+    }
+
+    bool PersistenciaManager::UpdateMixer(Mixer^ m) {
+        SqlConnection^ conn = nullptr;
+        SqlCommand^ cmd = nullptr;
+        bool exito = false;
+
+        try {
+            conn = GetConnection();
+            cmd = gcnew SqlCommand("dbo.usp_UpdateMixer", conn);
+            cmd->CommandType = CommandType::StoredProcedure;
+
+            cmd->Parameters->AddWithValue("@Id", m->id);
+            cmd->Parameters->AddWithValue("@Ubicacion", m->ubicacion);
+            cmd->Parameters->AddWithValue("@Estado", m->estado);
+
+            exito = (cmd->ExecuteNonQuery() > 0);
+        }
+        catch (Exception^ ex) {
+            Console::WriteLine("Error al actualizar Mixer: " + ex->Message);
+        }
+        finally {
+            if (cmd != nullptr) delete cmd;
+            if (conn != nullptr) { conn->Close(); delete conn; }
+        }
+        return exito;
+    }
+
+    bool PersistenciaManager::DeleteMixer(int id) {
+        SqlConnection^ conn = nullptr;
+        SqlCommand^ cmd = nullptr;
+        bool exito = false;
+
+        try {
+            conn = GetConnection();
+            cmd = gcnew SqlCommand("dbo.usp_DeleteMixer", conn);
+            cmd->CommandType = CommandType::StoredProcedure;
+            cmd->Parameters->AddWithValue("@Id", id);
+
+            exito = (cmd->ExecuteNonQuery() > 0);
+        }
+        catch (Exception^ ex) {
+            Console::WriteLine("Error al eliminar Mixer: " + ex->Message);
+        }
+        finally {
+            if (cmd != nullptr) delete cmd;
+            if (conn != nullptr) { conn->Close(); delete conn; }
+        }
+        return exito;
+    }
 }
 

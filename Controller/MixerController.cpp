@@ -1,27 +1,30 @@
 #include "pch.h"
 #include "MixerController.h"
 
-void ControllerMixer::MixerController::Initialize() {
-    // Configuración inicial del Mixer principal
-}
+namespace ControllerMixer {
 
-void ControllerMixer::MixerController::CreateMixer(int id, String^ ubi, String^ est, List<Bebida^>^ cat, List<Pedido^>^ ped, List<Tanque^>^ mat) {
-    listaMixers->Add(gcnew Mixer(id, ubi, est, cat, ped, mat));
-}
 
-Mixer^ ControllerMixer::MixerController::GetMixer(int id) {
-    for (int i = 0; i < listaMixers->Count; i++) {
-        if (listaMixers[i]->id == id) return listaMixers[i];
+
+    bool MixerController::CreateMixer(int id, String^ ubicacion, String^ estado) {
+        Mixer^ m = gcnew Mixer(id, ubicacion, estado);
+        return PersistenciaManager::AddMixer(m);
     }
-    return nullptr;
-}
 
-void ControllerMixer::MixerController::UpdateStatus(int id, String^ status) {
-    Mixer^ m = GetMixer(id);
-    if (m != nullptr) m->estado = status;
-}
+    List<Mixer^>^ MixerController::GetAllMixers() {
+        return PersistenciaManager::GetAllMixers();
+    }
 
-List<Mixer^>^ ControllerMixer::MixerController::GetAllMixers()
-{
-    return listaMixers;
+    Mixer^ MixerController::ReadMixer(int id) {
+        return PersistenciaManager::ReadMixer(id);
+    }
+
+    bool MixerController::UpdateMixer(int id, String^ ubicacion, String^ estado) {
+        Mixer^ m = gcnew Mixer(id, ubicacion, estado);
+        return PersistenciaManager::UpdateMixer(m);
+    }
+
+    bool MixerController::DeleteMixer(int id) {
+        return PersistenciaManager::DeleteMixer(id);
+    }
+
 }

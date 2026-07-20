@@ -1,3 +1,5 @@
+
+#pragma once
 #ifndef _MIXERCONTROLLER_H
 #define _MIXERCONTROLLER_H
 
@@ -15,11 +17,11 @@ namespace ControllerMixer {
     public:
 
         //CRUD Mixers
-        static void Initialize();
-        static void CreateMixer(int id, String^ ubi, String^ est, List<Bebida^>^ cat, List<Pedido^>^ ped, List<Tanque^>^ mat);
-        static Mixer^ GetMixer(int id);
-        static void UpdateStatus(int id, String^ status);
+        static bool CreateMixer(int id, String^ ubicacion, String^ estado);
         static List<Mixer^>^ GetAllMixers();
+        static Mixer^ ReadMixer(int id);
+        static bool UpdateMixer(int id, String^ ubicacion, String^ estado);
+        static bool DeleteMixer(int id);
 
         ///persistencia
 

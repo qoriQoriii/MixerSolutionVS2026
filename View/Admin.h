@@ -2,6 +2,9 @@
 #include "Inventario.h"
 #include "Pedidos.h"
 #include "VentanaReporte.h"
+
+using namespace ControllerMixer;
+using namespace ModelMixer;
 namespace View {
 
 	using namespace System;
@@ -377,11 +380,15 @@ namespace View {
 		// Instanciar y abrir la ventana como un diálogo modal centrado
 		mixer::VentanaReporte^ ventana = gcnew mixer::VentanaReporte();
 		ventana->ShowDialog();
+
+		CargarEstadoMixers();
 	}
 
 	private: System::Void label1_Click(System::Object^ sender, System::EventArgs^ e) {
 	}
 	private: System::Void Admin_Load(System::Object^ sender, System::EventArgs^ e) {
+
+		CargarEstadoMixers();
 	}
 	private: System::Void pictureBox1_Click(System::Object^ sender, System::EventArgs^ e) {
 	
@@ -400,5 +407,55 @@ private: System::Void btnPedidos_Click(System::Object^ sender, System::EventArgs
 	ped->ShowDialog();
 	
 }
+private: System::Void CargarEstadoMixers() {
+	try {
+		// 1. Obtener la lista de mixers desde la base de datos
+		List<ModelMixer::Mixer^>^ listaMixers = ControllerMixer::MixerController::GetAllMixers();
+
+		// 2. Agrupar los controles en arrays para iterar fácilmente sobre los 4 slots
+		array<System::Windows::Forms::PictureBox^>^ pics = { pictureBoxMixer1, pictureBoxMixer2, pictureBoxMixer3, pictureBoxMixer4 };
+		array<System::Windows::Forms::Label^>^ lblUbicaciones = { label2, label3, label4, label5 };
+		array<System::Windows::Forms::Label^>^ lblEstados = { label8, label6, label9, label7 };
+
+		String^ pathActivo = Application::StartupPath + "..\\..\\..\\imagenes\\mixer_activo.png";
+		String^ pathInactivo = Application::StartupPath + "..\\..\\..\\imagenes\\mixer_desactivado.png";
+
+		// 3. Recorrer los 4 espacios de la pantalla
+		for (int i = 0; i < 4; i++) {
+			if (i < listaMixers->Count) {
+				ModelMixer::Mixer^ m = listaMixers[i];
+
+				// Muestra la ubicación (ej: "Bar Principal", "VIP", etc.)
+				lblUbicaciones[i]->Text = m->ubicacion;
+
+				// Evalúa si el estado es Activo / Operativo
+				bool esActivo = String::Equals(m->estado->Trim(), "Activo", StringComparison::OrdinalIgnoreCase) ||
+					String::Equals(m->estado->Trim(), "Operativo", StringComparison::OrdinalIgnoreCase);
+
+				if (esActivo) {
+					pics[i]->Image = Image::FromFile(pathActivo);
+					lblEstados[i]->Text = L"Estado: Activo";
+					lblEstados[i]->ForeColor = System::Drawing::Color::LimeGreen;
+				}
+				else {
+					pics[i]->Image = Image::FromFile(pathInactivo);
+					lblEstados[i]->Text = L"Estado: " + m->estado;
+					lblEstados[i]->ForeColor = System::Drawing::Color::Red;
+				}
+			}
+			else {
+				// Si en la base de datos hay menos de 4 mixers registrados
+				pics[i]->Image = Image::FromFile(pathInactivo);
+				lblUbicaciones[i]->Text = L"Mixer " + (i + 1);
+				lblEstados[i]->Text = L"Estado: Desconectado";
+				lblEstados[i]->ForeColor = System::Drawing::Color::Red;
+			}
+		}
+	}
+	catch (Exception^ ex) {
+		System::Diagnostics::Debug::WriteLine("Error al cargar mixers: " + ex->Message);
+	}
+}
+
 };
 }
