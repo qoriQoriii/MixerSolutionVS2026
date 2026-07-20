@@ -1,8 +1,9 @@
 #pragma once
 #include "Pago.h"
 
+
 using namespace System::IO;
-using namespace System::Data::SqlClient;
+//using namespace System::Data::SqlClient;
 using namespace ModelMixer;
 
 namespace View {
@@ -218,42 +219,18 @@ namespace View {
 			//pictureBox1->SizeMode = PictureBoxSizeMode::StretchImage;
 		}
 
-		// Bebidas disponibles
-		/*
-		comboBoxBebida->Items->Add("Mojito");
-		comboBoxBebida->Items->Add("Cuba Libre");
-		comboBoxBebida->Items->Add("Daikiri");
-		*/
-		String^ cadena =
-			"Server=200.16.7.140;"
-			"Database=a20201150;"
-			"User Id=a20201150;"
-			"Password=f0wHl52n;"
-			"TrustServerCertificate=True;";
+		// Obtener bebidas desde Controller
+		System::Collections::Generic::List<String^>^ bebidas = ControllerMixer::InventarioController::ObtenerNombresBebidas();
 
-		SqlConnection^ conexion = gcnew SqlConnection(cadena);
-		conexion->Open();
-
-		SqlCommand^ cmd = gcnew SqlCommand(
-			"SELECT Nombre FROM Bebidas",
-			conexion);
-
-		SqlDataReader^ reader = cmd->ExecuteReader();
-
-		while (reader->Read())
+		for each (String ^ nombre in bebidas)
 		{
-			comboBoxBebida->Items->Add(reader->GetString(0));
+			comboBoxBebida->Items->Add(nombre);
 		}
-
-		reader->Close();
-		conexion->Close();
 
 		// Tamaños
 		comboBoxTamano->Items->Add("Small");
 		comboBoxTamano->Items->Add("Medium");
 		comboBoxTamano->Items->Add("Large");
-
-
 	}
 
 	private: System::Void pictureBox1_Click(System::Object^ sender, System::EventArgs^ e) {
