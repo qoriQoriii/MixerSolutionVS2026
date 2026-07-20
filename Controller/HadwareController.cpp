@@ -5,6 +5,7 @@
 using namespace System;
 using namespace ModelMixer;
 
+/*
 void ControllerMixer::HardwareController::Initialize() {
     // Aquí se instanciarían los motores, válvulas y sensores físicos de la máquina
 }
@@ -41,3 +42,5 @@ List<Componente^>^ ControllerMixer::HardwareController::GetAllDispositivos()
 {
     return listaDispositivos;
 }
+*/
+

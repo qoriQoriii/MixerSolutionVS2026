@@ -68,7 +68,7 @@
     <ClCompile Include="UsuarioController.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="VentanaController.cpp">
+    <ClCompile Include="VentaController.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
   </ItemGroup>

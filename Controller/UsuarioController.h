@@ -16,15 +16,11 @@ namespace ControllerMixer {
     public:
         static void Initialize();
         // Create para Administrador
-        static void CreateAdmin(int id, String^ nom, int dni, String^ password);
-        // Create para Cliente
-        static void CreateCliente(int id, String^ nom, int dni, int edadC);
-
-        static Usuario^ Read(int dni);
-        static void Update(int dni, String^ nuevoNombre);
-        static void Delete(int dni);
-
-        static List<Usuario^>^ GetAllUsers();
+        static bool CreateUsuario(int id, String^ nom, String^ dni, String^ password, int edad, String^ tipo);
+        static Usuario^ ReadUsuario(String^ dni);
+        static bool UpdateUsuario(int id, String^ nom, String^ dni, String^ password, int edad, String^ tipo);
+        static bool DeleteUsuario(String^ dni);
+        static List<Usuario^>^ GetAllUsuarios();
 
 
 

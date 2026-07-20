@@ -1,8 +1,7 @@
 #ifndef _BEBIDA_H
 #define _BEBIDA_H
-#include "Insumo.h"
+
 using namespace System;
-using namespace System::Collections::Generic;
 
 namespace ModelMixer {
     [Serializable]
@@ -11,9 +10,18 @@ namespace ModelMixer {
         property int id;
         property String^ nombre;
         property int precio;
-        property List<Insumo^>^ receta;
+        property String^ estado;
+        property String^ proporcion;
+
     public:
-        Bebida(int id, String^ nombre, int precio, List<Insumo^>^ receta); 
+        Bebida(int id, String^ nombre, int precio, String^ estado, String^ proporcion) {
+            this->id = id;
+            this->nombre = nombre;
+            this->precio = precio;
+            this->estado = estado;
+            this->proporcion = proporcion;
+        };
     };
 }
+
 #endif

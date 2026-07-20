@@ -15,6 +15,7 @@ namespace View {
 	using namespace System::Drawing;
 	using namespace System::Drawing::Drawing2D;
 	using namespace ControllerMixer;
+	using namespace ModelMixer;
 	using namespace System::Data::SqlClient;
 
 
@@ -56,7 +57,7 @@ namespace View {
 	private: System::Windows::Forms::Button^ btnAgregar;
 	private: System::Windows::Forms::Button^ btnModificar;
 	private: System::Windows::Forms::Button^ btnEliminar;
-
+		   
 
 
 	protected:
@@ -104,6 +105,7 @@ namespace View {
 			this->dgvInventario->RowTemplate->Height = 24;
 			this->dgvInventario->Size = System::Drawing::Size(600, 220);
 			this->dgvInventario->TabIndex = 1;
+			this->dgvInventario->CellContentClick += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &Inventario::dgvInventario_CellContentClick);
 			// 
 			// btnAgregar
 			// 
@@ -150,6 +152,7 @@ namespace View {
 			this->Name = L"Inventario";
 			this->StartPosition = System::Windows::Forms::FormStartPosition::CenterScreen;
 			this->Text = L"Inventario";
+			this->Activated += gcnew System::EventHandler(this, &Inventario::Inventario_Activated);
 			this->Load += gcnew System::EventHandler(this, &Inventario::Inventario_Load);
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dgvInventario))->EndInit();
 			this->ResumeLayout(false);
@@ -169,28 +172,52 @@ namespace View {
 			btn->Region = gcnew System::Drawing::Region(path);
 		}
 #pragma endregion
+
+		private: void cargarData()
+		{
+			dgvInventario->Columns->Clear();
+
+			dgvInventario->Columns->Add("ID", "ID");
+			dgvInventario->Columns->Add("Nombre", "Bebida");
+			dgvInventario->Columns->Add("Precio", "Precio");
+			dgvInventario->Columns->Add("Estado", "Estado");
+			dgvInventario->Columns->Add("Proporcion", "Proporción");
+
+			dgvInventario->ReadOnly = true;
+
+			dgvInventario->SelectionMode = DataGridViewSelectionMode::FullRowSelect;
+
+			dgvInventario->MultiSelect = false;
+
+			List<Bebida^>^ listaBebidas = InventarioController::GetAllBebidas();
+			for each(Bebida ^ b in listaBebidas)
+			{
+				dgvInventario->Rows->Add(
+					b->id.ToString(),
+					b->nombre,
+					b->precio.ToString(),
+					String::IsNullOrEmpty(b->estado) ? "Disponible" : b->estado,
+					String::IsNullOrEmpty(b->proporcion) ? "-" : b->proporcion
+				);
+			}
+
+
+			dgvInventario->AllowUserToAddRows = false;
+			dgvInventario->AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode::Fill;
+
+
+		}
 	private: System::Void Inventario_Load(System::Object^ sender, System::EventArgs^ e) {
 		
 
-		dgvInventario->Columns->Clear();
 
-		dgvInventario->Columns->Add("ID", "ID");
-		dgvInventario->Columns->Add("Nombre", "Bebida");
-		dgvInventario->Columns->Add("Precio", "Precio");
-		dgvInventario->Columns->Add("Estado", "Estado");
-		dgvInventario->Columns->Add("Proporcion", "Proporción");
-
-		dgvInventario->ReadOnly = true;
-
-		dgvInventario->SelectionMode = DataGridViewSelectionMode::FullRowSelect;
-
-		dgvInventario->MultiSelect = false;
-
-		/*
+		cargarData();
+/*
+		
 		dgvInventario->Rows->Add("1", "Mojito", "18", "Disponible");
 		dgvInventario->Rows->Add("2", "Margarita", "20", "Disponible");
 		dgvInventario->Rows->Add("3", "Piña Colada", "22", "Agotada");
-		*/
+		
 		String^ cadena =
 			"Server=200.16.7.140;"
 			"Database=a20201150;"
@@ -209,26 +236,9 @@ namespace View {
 
 		SqlDataReader^ reader = cmd->ExecuteReader();
 
-		while (reader->Read())
-		{
-			dgvInventario->Rows->Add(
-				reader["Id"]->ToString(),
-				reader["Nombre"]->ToString(),
-				reader["Precio"]->ToString(),
-				reader["Estado"] == DBNull::Value
-				? "Disponible"
-				: reader["Estado"]->ToString(),
-				reader["Proporcion"] == DBNull::Value
-				? "-"
-				: reader["Proporcion"]->ToString()
-			);
-		}
+*/
 
-		reader->Close();
-		conexion->Close();
 
-		dgvInventario->AllowUserToAddRows = false;
-		dgvInventario->AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode::Fill;
 
 		// Fondo general
 		dgvInventario->BackgroundColor = Color::FromArgb(30, 30, 30);
@@ -293,13 +303,18 @@ namespace View {
 	private: System::Void btnAgregar_Click(System::Object^ sender, System::EventArgs^ e) {
 		AgregarBebida^ form = gcnew AgregarBebida();
 
+		
 		if (form->ShowDialog() == System::Windows::Forms::DialogResult::OK)
 		{
 			try
 			{
 				int id = dgvInventario->Rows->Count + 1;
 
-				String^ cadena =
+			
+				
+
+				/*
+								String^ cadena =
 					"Server=200.16.7.140;"
 					"Database=a20201150;"
 					"User Id=a20201150;"
@@ -314,17 +329,30 @@ namespace View {
 					conexion);
 
 				verificar->Parameters->AddWithValue("@nombre", form->nombre);
+				*/
 
-				int existe = Convert::ToInt32(verificar->ExecuteScalar());
+				
+				List<Bebida^>^ listabebida = InventarioController::GetAllBebidas();
 
-				if (existe > 0)
+				int existe;
+				for each (Bebida ^ b in listabebida) {
+
+					if (form->nombre == b->nombre) {
+						int existe  = 1;
+						break;
+					}
+				}
+
+				//int existe = Convert::ToInt32(verificar->ExecuteScalar());
+
+				if (existe == 1)
 				{
 					MessageBox::Show("Ya existe una bebida con ese nombre");
-					conexion->Close();
+					//conexion->Close();
 					return;
 				}
 
-				SqlCommand^ cmd = gcnew SqlCommand(
+/*				SqlCommand^ cmd = gcnew SqlCommand(
 					"INSERT INTO Bebidas (Id, Nombre, Precio, Estado, Proporcion) VALUES (@id, @nombre, @precio, @estado, @proporcion)",
 					conexion);
 
@@ -337,6 +365,10 @@ namespace View {
 				cmd->ExecuteNonQuery();
 
 				conexion->Close();
+				
+				*/
+
+				int resultado = InventarioController::CreateBebida(id, form->nombre, Int32::Parse(form->precio), form->estado, form->proporcion);
 
 				dgvInventario->Rows->Add(
 					id.ToString(),
@@ -346,13 +378,17 @@ namespace View {
 					form->proporcion
 				);
 
-				MessageBox::Show("Bebida agregada correctamente");
+				if(resultado) MessageBox::Show("Bebida agregada correctamente");
 			}
 			catch (Exception^ ex)
 			{
 				MessageBox::Show(ex->Message);
 			}
 		}
+
+		
+
+
 	}
 private: System::Void btnEliminar_Click(System::Object^ sender, System::EventArgs^ e) {
 
@@ -370,8 +406,11 @@ private: System::Void btnEliminar_Click(System::Object^ sender, System::EventArg
 
 				int id = Int32::Parse(
 					dgvInventario->Rows[fila]->Cells[0]->Value->ToString()
+
+
 				);
 
+/*
 				String^ cadena =
 					"Server=200.16.7.140;"
 					"Database=a20201150;"
@@ -391,10 +430,21 @@ private: System::Void btnEliminar_Click(System::Object^ sender, System::EventArg
 				cmd->ExecuteNonQuery();
 
 				conexion->Close();
+*/
 
-				dgvInventario->Rows->RemoveAt(fila);
 
-				MessageBox::Show("Bebida eliminada correctamente");
+				if (InventarioController::DeleteBebida(id)) {
+					dgvInventario->Rows->RemoveAt(fila);
+
+					MessageBox::Show("Bebida eliminada correctamente");
+
+				}
+				else {
+					MessageBox::Show("La bebida no fue eliminada correctamente");
+
+				}
+
+
 			}
 			catch (Exception^ ex)
 			{
@@ -425,6 +475,7 @@ private: System::Void btnModificar_Click(System::Object^ sender, System::EventAr
 
 			if (form->ShowDialog() == System::Windows::Forms::DialogResult::OK)
 			{
+	/*
 				String^ cadena =
 					"Server=200.16.7.140;"
 					"Database=a20201150;"
@@ -454,13 +505,20 @@ private: System::Void btnModificar_Click(System::Object^ sender, System::EventAr
 
 
 				conexion->Close();
+	
+	*/
+				int resultado = InventarioController::UpdateBebida(id, form->nombre, Int32::Parse(form->precio), form->estado, form->proporcion);
 
-				dgvInventario->Rows[fila]->Cells[1]->Value = form->nombre;
-				dgvInventario->Rows[fila]->Cells[2]->Value = form->precio;
-				dgvInventario->Rows[fila]->Cells[3]->Value = form->estado;
-				dgvInventario->Rows[fila]->Cells[4]->Value = form->proporcion;
+				if (resultado) {
 
-				MessageBox::Show("Bebida modificada correctamente");
+					dgvInventario->Rows[fila]->Cells[1]->Value = form->nombre;
+					dgvInventario->Rows[fila]->Cells[2]->Value = form->precio;
+					dgvInventario->Rows[fila]->Cells[3]->Value = form->estado;
+					dgvInventario->Rows[fila]->Cells[4]->Value = form->proporcion;
+
+					MessageBox::Show("Bebida modificada correctamente");
+				}
+
 			}
 		}
 		catch (Exception^ ex)
@@ -469,6 +527,14 @@ private: System::Void btnModificar_Click(System::Object^ sender, System::EventAr
 		}
 	}
 
+}
+private: System::Void dgvInventario_CellContentClick(System::Object^ sender, System::Windows::Forms::DataGridViewCellEventArgs^ e) {
+}
+private: System::Void Inventario_Activated(System::Object^ sender, System::EventArgs^ e) {
+
+	cargarData();
+
+	/////////////////////////7
 }
 };
 }

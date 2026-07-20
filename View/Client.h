@@ -5,7 +5,7 @@
 using namespace System::IO;
 //using namespace System::Data::SqlClient;
 using namespace ModelMixer;
-
+using namespace System::Collections::Generic;
 namespace View {
 
 	using namespace System;
@@ -221,11 +221,17 @@ namespace View {
 		}
 
 		// Obtener bebidas desde Controller
-		System::Collections::Generic::List<String^>^ bebidas = ControllerMixer::InventarioController::ObtenerNombresBebidas();
 
-		for each (String ^ nombre in bebidas)
+
+
+		//System::Collections::Generic::List<String^>^ bebidas = ControllerMixer::InventarioController::ObtenerNombresBebidas();
+
+		List<Bebida^>^ lista = InventarioController::GetAllBebidas();
+
+
+		for each (Bebida^ b in lista)
 		{
-			comboBoxBebida->Items->Add(nombre);
+			comboBoxBebida->Items->Add(b->nombre);
 		}
 
 		// Tamaños
@@ -251,7 +257,7 @@ namespace View {
 		}
 
 		String^ hielo = checkBoxHielo->Checked ? "Si" : "No";
-
+		String^ bebida = comboBoxBebida->Text;
 		MessageBox::Show(
 			"Bebida: " + comboBoxBebida->Text +
 			"\nTamano: " + comboBoxTamano->Text +
@@ -260,7 +266,7 @@ namespace View {
 
 		this->Hide();
 
-		Pago^ p = gcnew Pago();
+		Pago^ p = gcnew Pago(bebida,hielo);
 		p->ShowDialog();
 
 		this->Show();

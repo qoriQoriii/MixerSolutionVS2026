@@ -8,6 +8,8 @@ namespace View {
 	using namespace System::Windows::Forms;
 	using namespace System::Data;
 	using namespace System::Drawing;
+	using namespace ModelMixer;
+	using namespace ControllerMixer;
 
 	/// <summary>
 	/// Resumen de AgregarBebida
@@ -88,13 +90,11 @@ namespace View {
 			this->label2 = (gcnew System::Windows::Forms::Label());
 			this->txtPrecio = (gcnew System::Windows::Forms::TextBox());
 			this->label3 = (gcnew System::Windows::Forms::Label());
-			//this->txtEstado = (gcnew System::Windows::Forms::TextBox());
 			this->cmbEstado = (gcnew System::Windows::Forms::ComboBox());
 			this->btnGuardar = (gcnew System::Windows::Forms::Button());
 			this->btnCancelar = (gcnew System::Windows::Forms::Button());
 			this->label4 = (gcnew System::Windows::Forms::Label());
 			this->txtProporcion = (gcnew System::Windows::Forms::TextBox());
-			this->cmbEstado = (gcnew System::Windows::Forms::ComboBox());
 			this->SuspendLayout();
 			// 
 			// label1
@@ -144,27 +144,21 @@ namespace View {
 			// cmbEstado
 			// 
 			this->cmbEstado->FormattingEnabled = true;
-			this->cmbEstado->Items->Add(L"Disponible");
-			this->cmbEstado->Items->Add(L"Agotado");
+			this->cmbEstado->Items->AddRange(gcnew cli::array< System::Object^  >(2) { L"Disponible", L"Agotado" });
 			this->cmbEstado->Location = System::Drawing::Point(301, 351);
 			this->cmbEstado->Name = L"cmbEstado";
 			this->cmbEstado->Size = System::Drawing::Size(120, 24);
 			this->cmbEstado->TabIndex = 5;
 			// 
-			// label4
-			this->label4->AutoSize = true;
-			this->label4->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 11));
-			this->label4->Location = System::Drawing::Point(173, 420);
-			this->label4->Name = L"label4";
-			this->label4->Size = System::Drawing::Size(95, 24);
-			this->label4->TabIndex = 6;
-			this->label4->Text = L"Proporción";
-
-			// txtProporcion
-			this->txtProporcion->Location = System::Drawing::Point(301, 422);
-			this->txtProporcion->Name = L"txtProporcion";
-			this->txtProporcion->Size = System::Drawing::Size(100, 22);
-			this->txtProporcion->TabIndex = 7;
+			// btnGuardar
+			// 
+			this->btnGuardar->Location = System::Drawing::Point(136, 480);
+			this->btnGuardar->Name = L"btnGuardar";
+			this->btnGuardar->Size = System::Drawing::Size(140, 43);
+			this->btnGuardar->TabIndex = 8;
+			this->btnGuardar->Text = L"Guardar";
+			this->btnGuardar->TextAlign = System::Drawing::ContentAlignment::TopRight;
+			this->btnGuardar->Click += gcnew System::EventHandler(this, &AgregarBebida::btnGuardar_Click_1);
 			// 
 			// btnCancelar
 			// 
@@ -175,6 +169,23 @@ namespace View {
 			this->btnCancelar->Text = L"Cancelar";
 			this->btnCancelar->UseVisualStyleBackColor = true;
 			this->btnCancelar->Click += gcnew System::EventHandler(this, &AgregarBebida::btnCancelar_Click);
+			// 
+			// label4
+			// 
+			this->label4->AutoSize = true;
+			this->label4->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 11));
+			this->label4->Location = System::Drawing::Point(173, 420);
+			this->label4->Name = L"label4";
+			this->label4->Size = System::Drawing::Size(103, 24);
+			this->label4->TabIndex = 6;
+			this->label4->Text = L"Proporción";
+			// 
+			// txtProporcion
+			// 
+			this->txtProporcion->Location = System::Drawing::Point(301, 422);
+			this->txtProporcion->Name = L"txtProporcion";
+			this->txtProporcion->Size = System::Drawing::Size(100, 22);
+			this->txtProporcion->TabIndex = 7;
 			// 
 			// AgregarBebida
 			// 
@@ -210,6 +221,19 @@ private: System::Void btnGuardar_Click(System::Object^ sender, System::EventArgs
 
 	this->DialogResult = System::Windows::Forms::DialogResult::OK;
 	this->Close();
+}
+private: System::Void btnGuardar_Click_1(System::Object^ sender, System::EventArgs^ e) {
+	nombre = txtNombre->Text;
+	precio = txtPrecio->Text;
+	estado = cmbEstado->Text;
+	proporcion = txtProporcion->Text;
+
+	this->DialogResult = System::Windows::Forms::DialogResult::OK;
+	this->Close();
+
+
+
+
 }
 };
 }

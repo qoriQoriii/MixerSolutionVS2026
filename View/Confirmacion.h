@@ -1,8 +1,10 @@
 #pragma once
 #include "Preparacion.h"
 #include "../Model/ArduinoController.h"
+
 using namespace ModelMixer;
 
+using namespace ControllerMixer;
 namespace View {
 
 	using namespace System;
@@ -18,13 +20,14 @@ namespace View {
 	public ref class Confirmacion : public System::Windows::Forms::Form
 	{
 	public:
-		Confirmacion(void)
+		Confirmacion(String^ pedido)
 			
 		{
 			
 			InitializeComponent();
 
-
+			this->pedido = pedido;
+			BebidaLista = false;
 			String^ port = "COM3"; // Cambia al puerto de tu Arduino
 			// Suscribirse al evento estático
 			ArduinoController::OnDataReceived += gcnew Action<String^>(this, &Confirmacion::ProcesarRespuestaArduino);
@@ -40,7 +43,13 @@ namespace View {
 		{
 			if (mensaje == "BEBIDA_LISTA")
 			{
-				//HAcemos algo cuando la preparación ha terminado, por ejemplo, mostrar un mensaje
+				//Hacemos algo cuando la preparación ha terminado, por ejemplo, mostrar un mensaje
+				BebidaLista = true;
+				MessageBox::Show("Su bebida esta lista");
+
+				this->Close();
+			
+			
 			}
 		}
 
@@ -58,6 +67,8 @@ namespace View {
 	private: System::Windows::Forms::Button^ btnAceptar;
 	protected:
 	private: System::Windows::Forms::Label^ label1;
+	private: String^ pedido;
+	private: bool BebidaLista;
 
 
 
@@ -129,9 +140,17 @@ namespace View {
 #pragma endregion
 	private: System::Void btnAceptar_Click(System::Object^ sender, System::EventArgs^ e) {
 		this->Hide();
+		//Mandamos el mensaje para iniciar la preparación:
 
+
+		ArduinoController::EnviarComando(pedido);
+
+
+		
 		Preparacion^ form = gcnew Preparacion();
 		form->ShowDialog();
+
+
 
 		this->Show();
 	}
@@ -141,9 +160,7 @@ namespace View {
 
 
 
-		//Mandamos el mensaje para iniciar la preparación:
 
-		ArduinoController::EnviarComando("PEDIDO:1,0,1,0");
 
 
 

@@ -142,7 +142,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="PedidoController.cpp" />
-    <ClCompile Include="VentanaController.cpp" />
+    <ClCompile Include="VentaController.cpp" />
     <ClCompile Include="UsuarioController.cpp" />
   </ItemGroup>
   <ItemGroup>

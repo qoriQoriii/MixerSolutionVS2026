@@ -4,7 +4,7 @@
 
 namespace ModelMixer {
     [Serializable]
-    public ref class Sensor : public Componente {
+    public ref class Sensor {
     public:
         property double litrado;
     public:

@@ -8,7 +8,7 @@ namespace ModelMixer {
     public:
         property int edadCliente;
     public:
-        Cliente(int id, String^ nombre, int  dni, int edadCli);
+        
 
   
     };

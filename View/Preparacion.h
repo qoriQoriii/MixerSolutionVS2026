@@ -149,6 +149,8 @@ namespace View {
 			Disfrute^ f = gcnew Disfrute();
 			f->ShowDialog();
 
+			
+
 			this->Close();
 		}
 	}

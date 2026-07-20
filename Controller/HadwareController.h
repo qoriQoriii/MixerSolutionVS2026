@@ -9,9 +9,11 @@ using namespace PersistenciaMixer;
 using namespace System;
 using namespace System::Collections::Generic;
 
+/*
+
 namespace ControllerMixer {
     public ref class HardwareController {
-    private:  
+    private:
         static List<Componente^>^ listaDispositivos = gcnew List<Componente^>();
     public:
         static void Initialize();
@@ -29,4 +31,5 @@ namespace ControllerMixer {
 
     };
 }
+*/
 #endif

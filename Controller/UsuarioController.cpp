@@ -2,53 +2,37 @@
 #include "UsuarioController.h"
 
 void ControllerMixer::UsuarioController::Initialize() {
-    // Ejemplo de inicialización de un administrador
-    CreateAdmin(1, "admin", 87654321, "1234");
+    //Vacio por el momento
 }
 
 
 
-void ControllerMixer::UsuarioController::CreateAdmin(int id, String^ nom, int dni, String^ password) {
-    Administrador^ nuevo = gcnew Administrador(id, nom, dni,password);
-    listaUsuarios->Add(nuevo);
+
+bool ControllerMixer::UsuarioController::CreateUsuario(int id, String^ nom, String^ dni, String^ password, int edad, String^ tipo) {
+    Usuario^ u =gcnew  Usuario(id, nom, dni, password, edad, tipo);
+    return PersistenciaManager::addUsuario(u);
+
 }
 
-void ControllerMixer::UsuarioController::CreateCliente(int id, String^ nom, int dni,int edadC)
+
+Usuario^ ControllerMixer::UsuarioController::ReadUsuario(String^ dni) {
+    return PersistenciaManager::getUsuarioByDNI(dni);
+}
+
+bool ControllerMixer::UsuarioController::UpdateUsuario(int id, String^ nom, String^ dni, String^ password, int edad, String^ tipo)
 {
-    Cliente^ nuevo = gcnew Cliente(id, nom, dni, edadC);
-    listaUsuarios->Add(nuevo);
+    Usuario^ u = gcnew  Usuario(id, nom, dni, password, edad, tipo);
+    return PersistenciaManager::updateUsuario(u);
 }
 
 
-
-Usuario^ ControllerMixer::UsuarioController::Read(int dni) {
-    for (int i = 0; i < listaUsuarios->Count; i++) {
-        if (listaUsuarios[i]->dni == dni) {
-            return listaUsuarios[i];
-        }
-    }
-    return nullptr;
+bool ControllerMixer::UsuarioController::DeleteUsuario(String^ dni) {
+    return PersistenciaManager::deleteUsuarioByDNI(dni);
 }
 
-void ControllerMixer::UsuarioController::Update(int dni, String^ nuevoNombre)
+List<Usuario^>^ ControllerMixer::UsuarioController::GetAllUsuarios()
 {
-    Usuario^ u = Read(dni);
-    if (u != nullptr) {
-        u->nombre = nuevoNombre;
-    }
-}
+    listaUsuarios = PersistenciaManager::getAllUsuarios();
 
-
-void ControllerMixer::UsuarioController::Delete(int dni) {
-    for (int i = 0; i < listaUsuarios->Count; i++) {
-        if (listaUsuarios[i]->dni == dni) {
-            listaUsuarios->RemoveAt(i);
-            break;
-        }
-    }
-}
-
-List<Usuario^>^ ControllerMixer::UsuarioController::GetAllUsers()
-{
     return listaUsuarios;
 }

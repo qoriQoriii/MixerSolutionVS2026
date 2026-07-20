@@ -5,6 +5,8 @@ using namespace System::Collections::Generic;
 using namespace System::IO;
 using namespace System::Runtime::Serialization::Formatters::Binary;
 using namespace System::Xml::Serialization;
+
+
 //correccion de diego
 using namespace System::Data;
 using namespace System::Data::SqlClient;
@@ -15,20 +17,64 @@ namespace PersistenciaMixer {
 
 	public ref class PersistenciaManager{
 
+	private:
+		static	String^ cadena =
+			"Server=200.16.7.140;"
+			"Database=a20201150;"
+			"User Id=a20201150;"
+			"Password=f0wHl52n;"
+			"TrustServerCertificate=True;";
+
 	public:
+
+
+		//Base de datos 
+		static SqlConnection^ GetConnection();
+
+		// ============================================================
+		// PERSISTENCIA USUARIOS DATABASE
+		// ============================================================
+		static bool addUsuario(Usuario^ u);
+		static Usuario^ getUsuarioByDNI(String^ dni);
+		static bool updateUsuario(Usuario^ u);
+		static bool deleteUsuarioByDNI(String^ dni);
+		static List<Usuario^>^ getAllUsuarios();
+
+		// ============================================================
+		// PERSISTENCIA BEBIDAS DATABASE
+		// ============================================================
+		static bool addBebida(Bebida^ b);
+		static Bebida^ getBebidaById(int id);
+		static bool updateBebida(Bebida^ b);
+		static bool deleteBebidaById(int id);
+		static List<Bebida^>^ getAllBebidas();
+
+		// ============================================================
+		// PERSISTENCIA VENTAS DATABASE
+		// ============================================================
+		static bool addVenta(Venta^ v);
+		static Venta^ getVentaById(int id);
+		static bool updateVenta(Venta^ v);
+		static bool deleteVentaById(int id);
+		static List<Venta^>^ getAllVentas();
+
+		// ============================================================
+		// PERSISTENCIA INSUMOS DATABASE
+		// ============================================================
+		static bool addInsumo(Insumo^ i);
+		static Insumo^ getInsumoById(int id);
+		static bool updateInsumo(Insumo^ i);
+		static bool deleteInsumoById(int id);
+		static List<Insumo^>^ getAllInsumos();
+
+
 
 		static List<String^>^ ObtenerNombresBebidasSQL()
 		{
 			List<String^>^ bebidas = gcnew List<String^>();
 
-			String^ cadena =
-				"Server=200.16.7.140;"
-				"Database=a20201150;"
-				"User Id=a20201150;"
-				"Password=f0wHl52n;"
-				"TrustServerCertificate=True;";
 
-			SqlConnection^ conexion = gcnew SqlConnection(cadena);
+			SqlConnection^ conexion = GetConnection();
 
 			try
 			{
@@ -55,6 +101,27 @@ namespace PersistenciaMixer {
 
 			return bebidas;
 		}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	public:
 		//Archivos del usuario
@@ -181,7 +248,7 @@ namespace PersistenciaMixer {
 				StreamWriter^ swTxt = gcnew StreamWriter(fileUsuariosTxt);
 				for each (Usuario^ u in lista)
 
-					swTxt->WriteLine(u->idUsuario + "|" + u->nombre + "|" + u->dni);
+					swTxt->WriteLine(u->idUsuario + "|" + u->Nombre + "|" + u->DNI);
 				swTxt->Close();
 			}
 			catch (Exception^) {}
@@ -300,7 +367,7 @@ namespace PersistenciaMixer {
 
 				StreamWriter^ swTxt = gcnew StreamWriter(fileVentasTxt);
 				for each (Venta ^ v in lista)
-					swTxt->WriteLine(v->id + "|" + v->nombre + "|" + v->cantidadBebidas + "|" + v->costeTotal + "|" + v->fechaVenta);
+					swTxt->WriteLine(v->id + "|" + v->nombreBebida + "|" + v->cantidad + "|" + v->coste + "|" + v->fecha);
 				swTxt->Close();
 			}
 			catch (Exception^) {}

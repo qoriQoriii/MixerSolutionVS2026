@@ -8,7 +8,7 @@ namespace ModelMixer {
     public:
         property String^ contrasena;
     public:
-        Administrador(int id, String^ nombre,  int dni, String^ contrasena);
+      
 
       
       

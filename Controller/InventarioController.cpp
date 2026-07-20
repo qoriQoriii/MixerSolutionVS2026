@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "InventarioController.h"
+/*
 
 void ControllerMixer::InventarioController::Initialize() {
     // Inicializar insumos base como Agua, Café, etc.
@@ -48,7 +49,68 @@ List<Bebida^>^ ControllerMixer::InventarioController::GetAllBebidas()
     return catalogo;
 }
 
-List<String^>^ ControllerMixer::InventarioController::ObtenerNombresBebidas();
+List<String^>^ ControllerMixer::InventarioController::ObtenerNombresBebidas()
 {
     return PersistenciaMixer::PersistenciaManager::ObtenerNombresBebidasSQL();
+}
+
+*/
+void ControllerMixer::InventarioController::Initialize() {
+    // Vacío por el momento
+}
+
+// ============================================================
+//  BEBIDA CONTROLLER 
+// ============================================================
+
+
+bool ControllerMixer::InventarioController::CreateBebida(int id, String^ nombre, int precio, String^ estado, String^ proporcion) {
+    Bebida^ b = gcnew Bebida(id, nombre, precio, estado, proporcion);
+    return PersistenciaManager::addBebida(b);
+}
+
+Bebida^ ControllerMixer::InventarioController::ReadBebida(int id) {
+    return PersistenciaManager::getBebidaById(id);
+}
+
+bool ControllerMixer::InventarioController::UpdateBebida(int id, String^ nombre, int precio, String^ estado, String^ proporcion) {
+    Bebida^ b = gcnew Bebida(id, nombre, precio, estado, proporcion);
+    return PersistenciaManager::updateBebida(b);
+}
+
+bool ControllerMixer::InventarioController::DeleteBebida(int id) {
+    return PersistenciaManager::deleteBebidaById(id);
+}
+
+List<Bebida^>^ ControllerMixer::InventarioController::GetAllBebidas() {
+    listaBebidas = PersistenciaManager::getAllBebidas();
+    return listaBebidas;
+}
+
+// ============================================================
+// INSUMO CONTROLLER
+// ============================================================
+
+
+bool ControllerMixer::InventarioController::CreateInsumo(int id, String^ nombre, int stockActual, int stockMinimoAlerta) {
+    Insumo^ i = gcnew Insumo(id, nombre, stockActual, stockMinimoAlerta);
+    return PersistenciaManager::addInsumo(i);
+}
+
+Insumo^ ControllerMixer::InventarioController::ReadInsumo(int id) {
+    return PersistenciaManager::getInsumoById(id);
+}
+
+bool ControllerMixer::InventarioController::UpdateInsumo(int id, String^ nombre, int stockActual, int stockMinimoAlerta) {
+    Insumo^ i = gcnew Insumo(id, nombre, stockActual, stockMinimoAlerta);
+    return PersistenciaManager::updateInsumo(i);
+}
+
+bool ControllerMixer::InventarioController::DeleteInsumo(int id) {
+    return PersistenciaManager::deleteInsumoById(id);
+}
+
+List<Insumo^>^ ControllerMixer::InventarioController::GetAllInsumos() {
+    listaInsumos = PersistenciaManager::getAllInsumos();
+    return listaInsumos;
 }

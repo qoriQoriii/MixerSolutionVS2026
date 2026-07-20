@@ -9,19 +9,27 @@ namespace View {
 	using namespace System::Windows::Forms;
 	using namespace System::Data;
 	using namespace System::Drawing;
+	using namespace System::Collections::Generic;
 
+	using  namespace ModelMixer;
+	using namespace ControllerMixer;
 	/// <summary>
 	/// Resumen de Pago
 	/// </summary>
 	public ref class Pago : public System::Windows::Forms::Form
 	{
 	public:
-		Pago(void)
+		Pago(String^ bebidaNombre, String^ hielo)
 		{
 			InitializeComponent();
 			//
 			//TODO: agregar código de constructor aquí
 			//
+
+			this->bebidaNombre = bebidaNombre;
+			this->hielo = hielo;
+
+			
 		}
 
 	protected:
@@ -42,6 +50,9 @@ namespace View {
 	private: System::Windows::Forms::PictureBox^ pictureBox1;
 	private: System::Windows::Forms::Button^ btnConfirmarPago;
 	private: System::Windows::Forms::Button^ btnCancelar;
+	private: String^ bebidaNombre;
+	private: String^ hielo;
+
 
 
 
@@ -90,7 +101,7 @@ namespace View {
 			// btnConfirmarPago
 			// 
 			this->btnConfirmarPago->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9.5F));
-			this->btnConfirmarPago->Location = System::Drawing::Point(237, 392);
+			this->btnConfirmarPago->Location = System::Drawing::Point(237, 396);
 			this->btnConfirmarPago->Name = L"btnConfirmarPago";
 			this->btnConfirmarPago->Size = System::Drawing::Size(113, 63);
 			this->btnConfirmarPago->TabIndex = 2;
@@ -130,7 +141,25 @@ namespace View {
 	private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e) {
 		this->Hide();
 
-		Confirmacion^ form = gcnew Confirmacion();
+		String^ pedido = InventarioController::GenerarStringPedido(bebidaNombre, hielo);
+
+		//Agregamos la venta:
+
+		double precio;
+
+		List<Bebida^>^ lista = InventarioController::GetAllBebidas();
+
+		for each (Bebida^ b in lista)
+		{
+			if (bebidaNombre == b->nombre) {
+				precio = b->precio;
+				break;
+			}
+		}
+
+		int result = VentaController::CreateVenta(0,bebidaNombre, 1, precio);
+
+		Confirmacion^ form = gcnew Confirmacion(pedido);
 		form->ShowDialog();
 
 		this->Show();
@@ -138,5 +167,10 @@ namespace View {
 private: System::Void btnCancelar_Click(System::Object^ sender, System::EventArgs^ e) {
 	this->Close();
 }
+
+	
+
+
+	   
 };
 }
